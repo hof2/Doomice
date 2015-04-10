@@ -48,7 +48,7 @@ public class Main extends SimpleApplication {
         rootNode.attachChild(headmasternode);
 
         PointLight sun = new PointLight();
-        sun.setPosition(new Vector3f(1, 1, 1));
+        sun.setPosition(new Vector3f(0, 1, 0));
         rootNode.addLight(sun);
 
         AmbientLight ambient = new AmbientLight();
