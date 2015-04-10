@@ -40,7 +40,7 @@ public class Main extends SimpleApplication {
         surface.setMaterial(mat);
         rootNode.attachChild(surface);
 
-        headmaster = assetManager.loadModel("Models/Headmaster/Headmaster001.j3o");
+        headmaster = assetManager.loadModel("Models/Headmaster/Headmaster.j3o");
         headmaster.setMaterial(mat);
 
         headmasternode = new Node();
