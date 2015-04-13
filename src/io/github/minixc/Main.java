@@ -30,31 +30,28 @@ public class Main extends SimpleApplication implements ActionListener {
 
     @Override
     public void simpleInitApp() {
-        //set up physics:
+        //set up physics
         bulletAppState = new BulletAppState();
         stateManager.attach(bulletAppState);
 
-        //set up keys:
+        //set up keys
         setUpKeys();
 
         //set up light
         setUpLight();
 
-        //create default material:
+        //create default material
         Material defaultMaterial = new Material(assetManager, "Common/MatDefs/Light/Lighting.j3md");
 
-        //create terrain with random height map:
+        //create terrain with random height map
         try {
             setUpTerrain(defaultMaterial);
         } catch (Exception ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        //create headmaster:
+        //create headmaster
         setUpHeadmaster(defaultMaterial);
-
-        //flyCam.setMoveSpeed(50);
-        //cam.setLocation(Vector3f.ZERO);
     }
 
     private float[] getRandomHeightMap() throws Exception {
@@ -67,23 +64,22 @@ public class Main extends SimpleApplication implements ActionListener {
     @Override
     public void simpleUpdate(float tpf) {
         headmaster.updateDirection(cam);
-        //System.out.println(headmaster.isOnGround());
     }
 
     //https://github.com/MiniXC/Doomice/issues/4 - Make FollowCamera class?
     private void setUpChaseCam(Node target) {
-        //disable the default cam:
+        //disable the default cam
         flyCam.setEnabled(false);
-        //create the chaseCam:
+        //create the chaseCam
         ChaseCamera chaseCam = new ChaseCamera(cam, target, inputManager);
         chaseCam.setDragToRotate(false);
         chaseCam.setRotationSpeed(3);
-        //Attach the chaseCam to the target:
+        //Attach the chaseCam to the target
         target.addControl(chaseCam);
     }
 
     private void setUpLight() {
-        //init lights:
+        //init lights
         PointLight sun = new PointLight();
         sun.setPosition(new Vector3f(0, 1, 0));
         AmbientLight ambient = new AmbientLight();
@@ -128,16 +124,16 @@ public class Main extends SimpleApplication implements ActionListener {
     private void setUpTerrain(Material material) throws Exception {
         TerrainQuad terrain;
         terrain = new TerrainQuad("Floor", TERRAIN_PATCH_SIZE, TERRAIN_SIZE, getRandomHeightMap());
-        //give the terrain its material, position & scale it, and attach it:
+        //give the terrain its material, position & scale it, and attach it
         terrain.setMaterial(material);
         terrain.setLocalTranslation(new Vector3f(0, -100, 0));
         terrain.setLocalScale(2f, 1f, 2f);
-        //render terrain far away with less detail:
+        //render terrain far away with less detail
         TerrainLodControl control = new TerrainLodControl(terrain, getCamera());
         terrain.addControl(control);
-        //add physics:
+        //add physics
         terrain.addControl(new RigidBodyControl(0));
-        //add to scene:
+        //add to scene
         rootNode.attachChild(terrain);
         bulletAppState.getPhysicsSpace().add(terrain);
     }
@@ -145,20 +141,20 @@ public class Main extends SimpleApplication implements ActionListener {
     private void setUpHeadmaster(Material material) {
         Node headmasterNode = new Node("headmaster");
         Spatial headmasterModel = assetManager.loadModel("Models/Headmaster/Headmaster.j3o");
-        //give the headmaster its material:
+        //give the headmaster its material
         headmasterModel.setMaterial(material);
-        //init headmaster:
+        //init headmaster
         headmaster = new HeadmasterControl(new CapsuleCollisionShape(0.1f, 0.1f, 1), 0.5f);
         headmaster.setJumpSpeed(20);
         headmaster.setFallSpeed(30);
         headmaster.setGravity(30);
-        //set the controlled spatial:
+        //set the controlled spatial
         headmasterNode.attachChild(headmasterModel);
         headmaster.setSpatial(headmasterModel);
         headmasterNode.addControl(headmaster);
-        //let the cam follow:
+        //let the cam follow
         setUpChaseCam(headmasterNode);
-        //add to scene:
+        //add to scene
         rootNode.attachChild(headmasterNode);
         bulletAppState.getPhysicsSpace().add(headmaster);
     }
