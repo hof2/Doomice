@@ -2,12 +2,8 @@ package io.github.minixc;
 
 import com.jme3.app.SimpleApplication;
 import com.jme3.bullet.BulletAppState;
-import com.jme3.bullet.collision.shapes.CapsuleCollisionShape;
 import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.input.ChaseCamera;
-import com.jme3.input.KeyInput;
-import com.jme3.input.controls.ActionListener;
-import com.jme3.input.controls.KeyTrigger;
 import com.jme3.light.AmbientLight;
 import com.jme3.light.PointLight;
 import com.jme3.material.Material;
@@ -17,14 +13,17 @@ import com.jme3.scene.Spatial;
 import com.jme3.terrain.geomipmap.TerrainLodControl;
 import com.jme3.terrain.geomipmap.TerrainQuad;
 import com.jme3.terrain.heightmap.HillHeightMap;
+import io.github.minixc.controls.EntityControl;
 import io.github.minixc.controls.HeadmasterControl;
+import io.github.minixc.listeners.MoveListener;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class Main extends SimpleApplication implements ActionListener {
+public class Main extends SimpleApplication {
 
     private BulletAppState bulletAppState;
-    private HeadmasterControl headmaster;
+    private EntityControl player;
+    private MoveListener listener;
     private static final int TERRAIN_SIZE = 1025;
     private static final int TERRAIN_PATCH_SIZE = 65;
 
@@ -32,26 +31,21 @@ public class Main extends SimpleApplication implements ActionListener {
     public void simpleInitApp() {
         //set up physics
         bulletAppState = new BulletAppState();
-        stateManager.attach(bulletAppState);
-
-        //set up keys
-        setUpKeys();
-
+        stateManager.attach(bulletAppState);     
         //set up light
         setUpLight();
-
         //create default material
         Material defaultMaterial = new Material(assetManager, "Common/MatDefs/Light/Lighting.j3md");
-
         //create terrain with random height map
         try {
             setUpTerrain(defaultMaterial);
         } catch (Exception ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
-
         //create headmaster
-        setUpHeadmaster(defaultMaterial);
+        setUpHeadmaster(defaultMaterial);        
+        //add listener
+        listener = new MoveListener(player, inputManager);
     }
 
     private float[] getRandomHeightMap() throws Exception {
@@ -63,14 +57,10 @@ public class Main extends SimpleApplication implements ActionListener {
 
     @Override
     public void simpleUpdate(float tpf) {
-        headmaster.updateDirection(cam);
+        player.updateDirection(cam);
     }
 
-    //https://github.com/MiniXC/Doomice/issues/4 - Make FollowCamera class?
     private void setUpChaseCam(Node target) {
-        //disable the default cam
-        flyCam.setEnabled(false);
-        //create the chaseCam
         ChaseCamera chaseCam = new ChaseCamera(cam, target, inputManager);
         chaseCam.setDragToRotate(false);
         chaseCam.setRotationSpeed(3);
@@ -85,40 +75,6 @@ public class Main extends SimpleApplication implements ActionListener {
         AmbientLight ambient = new AmbientLight();
         rootNode.addLight(sun);
         rootNode.addLight(ambient);
-    }
-
-    private void setUpKeys() {
-        inputManager.addMapping("Left", new KeyTrigger(KeyInput.KEY_A));
-        inputManager.addMapping("Right", new KeyTrigger(KeyInput.KEY_D));
-        inputManager.addMapping("Up", new KeyTrigger(KeyInput.KEY_W));
-        inputManager.addMapping("Down", new KeyTrigger(KeyInput.KEY_S));
-        inputManager.addMapping("Jump", new KeyTrigger(KeyInput.KEY_SPACE));
-        inputManager.addListener(this, "Left");
-        inputManager.addListener(this, "Right");
-        inputManager.addListener(this, "Up");
-        inputManager.addListener(this, "Down");
-        inputManager.addListener(this, "Jump");
-    }
-
-    @Override
-    public void onAction(String name, boolean isPressed, float tpf) {
-        switch (name) {
-            case "Left":
-                headmaster.setLeft(isPressed);
-                break;
-            case "Right":
-                headmaster.setRight(isPressed);
-                break;
-            case "Up":
-                headmaster.setUp(isPressed);
-                break;
-            case "Down":
-                headmaster.setDown(isPressed);
-                break;
-            case "Jump":
-                headmaster.jump();
-                break;
-        }
     }
 
     private void setUpTerrain(Material material) throws Exception {
@@ -144,19 +100,16 @@ public class Main extends SimpleApplication implements ActionListener {
         //give the headmaster its material
         headmasterModel.setMaterial(material);
         //init headmaster
-        headmaster = new HeadmasterControl(new CapsuleCollisionShape(0.1f, 0.1f, 1), 0.5f);
-        headmaster.setJumpSpeed(20);
-        headmaster.setFallSpeed(30);
-        headmaster.setGravity(30);
+        player = new HeadmasterControl(cam);
         //set the controlled spatial
         headmasterNode.attachChild(headmasterModel);
-        headmaster.setSpatial(headmasterModel);
-        headmasterNode.addControl(headmaster);
+        player.setSpatial(headmasterModel);
+        headmasterNode.addControl(player);
         //let the cam follow
         setUpChaseCam(headmasterNode);
         //add to scene
         rootNode.attachChild(headmasterNode);
-        bulletAppState.getPhysicsSpace().add(headmaster);
+        bulletAppState.getPhysicsSpace().add(player);
     }
 
     public static void main(String[] args) {
