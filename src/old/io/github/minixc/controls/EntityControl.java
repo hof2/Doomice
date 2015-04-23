@@ -1,4 +1,4 @@
-package io.github.minixc.controls;
+package old.io.github.minixc.controls;
 
 import com.jme3.bullet.collision.shapes.CapsuleCollisionShape;
 import com.jme3.bullet.collision.shapes.CollisionShape;

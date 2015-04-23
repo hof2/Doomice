@@ -1,4 +1,4 @@
-package io.github.minixc;
+package old.io.github.minixc;
 
 import com.jme3.app.SimpleApplication;
 import com.jme3.bullet.BulletAppState;
@@ -13,9 +13,9 @@ import com.jme3.scene.Spatial;
 import com.jme3.terrain.geomipmap.TerrainLodControl;
 import com.jme3.terrain.geomipmap.TerrainQuad;
 import com.jme3.terrain.heightmap.HillHeightMap;
-import io.github.minixc.controls.EntityControl;
-import io.github.minixc.controls.HeadmasterControl;
-import io.github.minixc.listeners.MoveListener;
+import old.io.github.minixc.controls.EntityControl;
+import old.io.github.minixc.controls.HeadmasterControl;
+import old.io.github.minixc.listeners.MoveListener;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -63,9 +63,11 @@ public class Main extends SimpleApplication {
     private void setUpChaseCam(Node target) {
         ChaseCamera chaseCam = new ChaseCamera(cam, target, inputManager);
         chaseCam.setDragToRotate(false);
-        chaseCam.setRotationSpeed(3);
+        chaseCam.setRotationSpeed(1.5f);
+        chaseCam.setSmoothMotion(true);
         //Attach the chaseCam to the target
         target.addControl(chaseCam);
+        
     }
 
     private void setUpLight() {

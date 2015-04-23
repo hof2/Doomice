@@ -1,4 +1,4 @@
-package io.github.minixc.controls;
+package old.io.github.minixc.controls;
 
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;

@@ -1,10 +1,10 @@
-package io.github.minixc.listeners;
+package old.io.github.minixc.listeners;
 
 import com.jme3.input.InputManager;
 import com.jme3.input.KeyInput;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.KeyTrigger;
-import io.github.minixc.controls.EntityControl;
+import old.io.github.minixc.controls.EntityControl;
 
 public class MoveListener implements ActionListener {
 
