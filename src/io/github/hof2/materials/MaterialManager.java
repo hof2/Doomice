@@ -16,10 +16,10 @@ public class MaterialManager {
     private static HashMap<String, Material> map = new HashMap<>();
 
     public static Material getMaterial(String key) {
-        //DOTO
+        return map.get(key);
     }
 
     public static void putMaterial(String key, Material value) {
-        //DOTO
+        map.put(key, value);
     }
 }

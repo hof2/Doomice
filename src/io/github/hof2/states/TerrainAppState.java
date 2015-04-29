@@ -15,6 +15,7 @@ import com.jme3.scene.Node;
 import com.jme3.terrain.geomipmap.TerrainQuad;
 import com.jme3.terrain.heightmap.HillHeightMap;
 import io.github.hof2.Main;
+import io.github.hof2.materials.MaterialManager;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -42,7 +43,8 @@ public class TerrainAppState extends AbstractAppState {
         try {
             this.terrain = new TerrainQuad("Floor", PATCH_SIZE, TOTAL_SIZE, createHeightMap());
             
-            setMaterial(Main.getMaterial("Common/MatDefs/Light/Lighting.j3md"));
+            setMaterial(MaterialManager.getMaterial("floor"));
+            terrain.setLocalTranslation(0, -512, 0);
             rootNode.attachChild(terrain);
         } catch (Exception ex) {
             System.out.println("TerrainAppState : HeightMap creation failed");
@@ -57,6 +59,7 @@ public class TerrainAppState extends AbstractAppState {
     @Override
     public void cleanup() {
         super.cleanup();
+        rootNode.detachChild(terrain);
     }
 
     private float[] createHeightMap() throws Exception {
