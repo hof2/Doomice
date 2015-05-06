@@ -21,16 +21,18 @@ public class GameAppState extends AbstractAppState {
     private BulletAppState physics = new BulletAppState();
     private TerrainAppState terrain = new TerrainAppState();
     private LightAppState lighting = new LightAppState();
+    private HeadmasterAppState headmaster = new HeadmasterAppState();
 
     @Override
     public void initialize(AppStateManager stateManager, Application app) {
         super.initialize(stateManager, app);
         this.stateManager = stateManager;
         initializeMaterials(app);
-        
+        physics.setDebugEnabled(true);
         this.stateManager.attach(physics);
         this.stateManager.attach(terrain);
         this.stateManager.attach(lighting);
+        this.stateManager.attach(headmaster);
     }
 
     @Override
@@ -40,9 +42,9 @@ public class GameAppState extends AbstractAppState {
     @Override
     public void cleanup() {
         super.cleanup();
-        stateManager.detach(physics);
         stateManager.detach(terrain);
         stateManager.detach(lighting);
+        stateManager.detach(headmaster);
     }
 
     private void initializeMaterials(Application app) {
