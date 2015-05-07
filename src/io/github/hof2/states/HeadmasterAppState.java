@@ -49,25 +49,25 @@ public class HeadmasterAppState extends AbstractAppState implements ActionListen
         initInputs();
         control = new HeadmasterControl(1f, 3f, 1f);
         control.setGravity(new Vector3f(0, 1f, 0));
-        
+
         headmaster = (Node) app.getAssetManager().loadModel("Models/Headmaster/Headmaster.j3o");
         headmaster.setMaterial(MaterialManager.getMaterial("player"));
         headmaster.addControl(control);
-        
+
         physics = stateManager.getState(BulletAppState.class);
         physics.getPhysicsSpace().addAll(headmaster);
         physics.getPhysicsSpace().add(control);
-        
-        
+
+
         ((SimpleApplication) app).getFlyByCamera().setEnabled(false);
-        camNode=new CameraNode("HeadmasterCam", app.getCamera());
+        camNode = new CameraNode("HeadmasterCam", app.getCamera());
         camNode.setControlDir(CameraControl.ControlDirection.SpatialToCamera);
         headmaster.attachChild(camNode);
         camNode.setLocalTranslation(new Vector3f(0, 5, -5));
         camNode.lookAt(headmaster.getLocalTranslation(), Vector3f.UNIT_Y);
-        
+
         ((SimpleApplication) app).getRootNode().attachChild(headmaster);
-        
+
         control.warp(new Vector3f(0, 128, 0));
     }
 
@@ -81,7 +81,7 @@ public class HeadmasterAppState extends AbstractAppState implements ActionListen
         super.cleanup();
     }
 
-    private void initInputs(){
+    private void initInputs() {
         input.addMapping("Left", new KeyTrigger(KeyInput.KEY_A),
                 new KeyTrigger(KeyInput.KEY_LEFT));
         input.addMapping("Right", new KeyTrigger(KeyInput.KEY_D),
@@ -91,9 +91,11 @@ public class HeadmasterAppState extends AbstractAppState implements ActionListen
         input.addMapping("Backward", new KeyTrigger(KeyInput.KEY_S),
                 new KeyTrigger(KeyInput.KEY_DOWN));
         input.addMapping("Jump", new KeyTrigger(KeyInput.KEY_SPACE));
-        input.addMapping("RotateLeft", new MouseAxisTrigger(MouseInput.AXIS_X,false));
-        input.addMapping("RotateRight", new MouseAxisTrigger(MouseInput.AXIS_X,true));
-        
+        input.addMapping("RotateLeft", new MouseAxisTrigger(MouseInput.AXIS_X, false));
+        input.addMapping("RotateRight", new MouseAxisTrigger(MouseInput.AXIS_X, true));
+        input.addMapping("RotateUp", new MouseAxisTrigger(MouseInput.AXIS_Y, false));
+        input.addMapping("RotateDown", new MouseAxisTrigger(MouseInput.AXIS_Y, true));
+
         input.addListener(this, "Left");
         input.addListener(this, "Right");
         input.addListener(this, "Forward");
@@ -101,27 +103,39 @@ public class HeadmasterAppState extends AbstractAppState implements ActionListen
         input.addListener(this, "Jump");
         input.addListener(this, "RotateLeft");
         input.addListener(this, "RotateRight");
-        
+        input.addListener(this, "RotateUp");
+        input.addListener(this, "RotateDown");
+
 
     }
 
     @Override
     public void onAction(String name, boolean isPressed, float tpf) {
-        
     }
-    
+
     @Override
     public void onAnalog(String name, float value, float tpf) {
-        System.out.println("gfdsaf");
-        Quaternion turn90=new Quaternion();
-        turn90.fromAngleAxis(FastMath.PI/2, new Vector3f(0, 1*tpf, 0));
-        //Vector3f newDir = turn90.multLocal(walkDirection.clone()).clone();
-        switch(name){
+        System.out.println("name: " + name);
+        Quaternion turn90 = new Quaternion();
+        turn90.fromAngleAxis((FastMath.PI / 2) * tpf, new Vector3f(0, tpf*1, 0));
+        Vector3f newDir = turn90.multLocal(control.getViewDirection().clone()).clone();
+
+        System.out.println("Walkdir: " + control.getViewDirection());
+
+        switch (name) {
             case "RotateLeft":
-                //walkDirection.addLocal(newDir);
+                control.setViewDirection(control.getViewDirection().addLocal(newDir));
                 break;
             case "RotateRight":
-                //walkDirection.addLocal(newDir.negate());
+                control.setViewDirection(control.getViewDirection().addLocal(newDir.negate()));
+                break;
+            case "RotateUp":
+                camNode.getLocalTranslation().addLocal(new Vector3f(0, tpf*2*1, tpf*2*1));
+                camNode.lookAt(headmaster.getLocalTranslation(), Vector3f.UNIT_Y);
+                break;
+            case "RotateDown":
+                camNode.getLocalTranslation().addLocal(new Vector3f(0, tpf*2*-1, tpf*2*-1));
+                camNode.lookAt(headmaster.getLocalTranslation(), Vector3f.UNIT_Y);
                 break;
         }
     }
