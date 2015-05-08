@@ -8,9 +8,7 @@ import com.jme3.app.Application;
 import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.AbstractAppState;
 import com.jme3.app.state.AppStateManager;
-import com.jme3.asset.AssetManager;
 import com.jme3.bullet.BulletAppState;
-import com.jme3.input.ChaseCamera;
 import com.jme3.input.InputManager;
 import com.jme3.input.KeyInput;
 import com.jme3.input.MouseInput;
@@ -19,15 +17,12 @@ import com.jme3.input.controls.AnalogListener;
 import com.jme3.input.controls.KeyTrigger;
 import com.jme3.input.controls.MouseAxisTrigger;
 import com.jme3.math.FastMath;
-import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
-import com.jme3.renderer.Camera;
 import com.jme3.scene.CameraNode;
 import com.jme3.scene.Node;
-import com.jme3.scene.control.CameraControl;
 import io.github.hof2.controls.HeadmasterControl;
+import io.github.hof2.controls.PhysicsChaseCamera;
 import io.github.hof2.materials.MaterialManager;
-import java.awt.MouseInfo;
 
 /**
  *
@@ -47,25 +42,30 @@ public class HeadmasterAppState extends AbstractAppState implements ActionListen
         rootNode = ((SimpleApplication) app).getRootNode();
         input = app.getInputManager();
         initInputs();
-        control = new HeadmasterControl(1f, 3f, 1f);
+        control = new HeadmasterControl(1f, 3f, 1f,app.getCamera());
         control.setGravity(new Vector3f(0, 1f, 0));
 
         headmaster = (Node) app.getAssetManager().loadModel("Models/Headmaster/Headmaster.j3o");
         headmaster.setMaterial(MaterialManager.getMaterial("player"));
+        headmaster.rotateUpTo(new Vector3f(0, FastMath.PI/2, 0));
         headmaster.addControl(control);
 
         physics = stateManager.getState(BulletAppState.class);
         physics.getPhysicsSpace().addAll(headmaster);
         physics.getPhysicsSpace().add(control);
+        
 
 
         ((SimpleApplication) app).getFlyByCamera().setEnabled(false);
-        camNode = new CameraNode("HeadmasterCam", app.getCamera());
-        camNode.setControlDir(CameraControl.ControlDirection.SpatialToCamera);
-        headmaster.attachChild(camNode);
-        camNode.setLocalTranslation(new Vector3f(0, 5, -5));
-        camNode.lookAt(headmaster.getLocalTranslation(), Vector3f.UNIT_Y);
-
+        PhysicsChaseCamera cc = new PhysicsChaseCamera(app.getCamera(),headmaster,input,physics.getPhysicsSpace());
+        cc.setDragToRotate(false);
+        cc.setTrailingEnabled(false);
+        cc.setLookAtOffset(new Vector3f(0, 2.5f, 0));
+        cc.setZoomSensitivity(3f);
+//        cc.setRotationSensitivity(1);
+//        cc.setZoomSpeed(0.1f);
+        
+//        cc.setDownRotateOnCloseViewOnly(true);
         ((SimpleApplication) app).getRootNode().attachChild(headmaster);
 
         control.warp(new Vector3f(0, 128, 0));
@@ -105,8 +105,6 @@ public class HeadmasterAppState extends AbstractAppState implements ActionListen
         input.addListener(this, "RotateRight");
         input.addListener(this, "RotateUp");
         input.addListener(this, "RotateDown");
-
-
     }
 
     @Override
@@ -115,28 +113,6 @@ public class HeadmasterAppState extends AbstractAppState implements ActionListen
 
     @Override
     public void onAnalog(String name, float value, float tpf) {
-        System.out.println("name: " + name);
-        Quaternion turn90 = new Quaternion();
-        turn90.fromAngleAxis((FastMath.PI / 2) * tpf, new Vector3f(0, tpf*1, 0));
-        Vector3f newDir = turn90.multLocal(control.getViewDirection().clone()).clone();
-
-        System.out.println("Walkdir: " + control.getViewDirection());
-
-        switch (name) {
-            case "RotateLeft":
-                control.setViewDirection(control.getViewDirection().addLocal(newDir));
-                break;
-            case "RotateRight":
-                control.setViewDirection(control.getViewDirection().addLocal(newDir.negate()));
-                break;
-            case "RotateUp":
-                camNode.getLocalTranslation().addLocal(new Vector3f(0, tpf*2*1, tpf*2*1));
-                camNode.lookAt(headmaster.getLocalTranslation(), Vector3f.UNIT_Y);
-                break;
-            case "RotateDown":
-                camNode.getLocalTranslation().addLocal(new Vector3f(0, tpf*2*-1, tpf*2*-1));
-                camNode.lookAt(headmaster.getLocalTranslation(), Vector3f.UNIT_Y);
-                break;
-        }
+        
     }
 }
