@@ -91,20 +91,12 @@ public class HeadmasterAppState extends AbstractAppState implements ActionListen
         input.addMapping("Backward", new KeyTrigger(KeyInput.KEY_S),
                 new KeyTrigger(KeyInput.KEY_DOWN));
         input.addMapping("Jump", new KeyTrigger(KeyInput.KEY_SPACE));
-        input.addMapping("RotateLeft", new MouseAxisTrigger(MouseInput.AXIS_X, false));
-        input.addMapping("RotateRight", new MouseAxisTrigger(MouseInput.AXIS_X, true));
-        input.addMapping("RotateUp", new MouseAxisTrigger(MouseInput.AXIS_Y, false));
-        input.addMapping("RotateDown", new MouseAxisTrigger(MouseInput.AXIS_Y, true));
 
         input.addListener(this, "Left");
         input.addListener(this, "Right");
         input.addListener(this, "Forward");
         input.addListener(this, "Backward");
         input.addListener(this, "Jump");
-        input.addListener(this, "RotateLeft");
-        input.addListener(this, "RotateRight");
-        input.addListener(this, "RotateUp");
-        input.addListener(this, "RotateDown");
     }
 
     @Override
