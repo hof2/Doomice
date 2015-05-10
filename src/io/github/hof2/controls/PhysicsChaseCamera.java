@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package io.github.hof2.controls;
 
 import com.jme3.bullet.PhysicsSpace;
@@ -27,10 +23,7 @@ import com.jme3.scene.control.Control;
 import java.io.IOException;
 import java.util.LinkedList;
 
-/**
- *
- * @author Matthias
- */
+@Deprecated
 public class PhysicsChaseCamera implements ActionListener, AnalogListener, Control {
 
     protected Spatial target = null;
