@@ -21,7 +21,7 @@ public class GameAppState extends SimpleAppState {
     private BulletAppState physics = new BulletAppState();
     private TerrainAppState terrain = new TerrainAppState();
     private LightAppState lighting = new LightAppState();
-    private PlayerAppState headmaster = new PlayerAppState(PlayerTypes.Headmaster);
+    private PlayerAppState headmaster = new PlayerAppState(PlayerTypes.Student);
     /* Global Parameters */
     /**
      * Defines the gravity for all in-game objects.

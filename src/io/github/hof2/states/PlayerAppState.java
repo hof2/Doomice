@@ -11,13 +11,15 @@ import com.jme3.input.KeyInput;
 import com.jme3.math.FastMath;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
+import io.github.hof2.controls.HeadmasterControl;
 import io.github.hof2.controls.PlayerControl;
+import io.github.hof2.controls.StudentControl;
+import static io.github.hof2.states.PlayerTypes.Headmaster;
+import static io.github.hof2.states.PlayerTypes.Student;
 import io.github.hof2.states.simple.SimpleMaterials;
 import io.github.hof2.states.simple.Mapping;
 import io.github.hof2.states.simple.Materials;
 import io.github.hof2.states.simple.SimpleAppState;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Adds a player to the game, which can be either a
@@ -26,11 +28,13 @@ import java.util.logging.Logger;
 public class PlayerAppState extends SimpleAppState {
 
     private Node player;
-    private PlayerControl control;
+    private PlayerControl playerControl;
+    private StudentControl studentControl;
+    private HeadmasterControl headmasterControl;
     private InputManager inputManager;
     private Node rootNode;
     private PhysicsSpace physicsSpace;
-    private PlayerTypes type;
+    private PlayerTypes playerType;
 
     /**
      * Set
@@ -39,7 +43,7 @@ public class PlayerAppState extends SimpleAppState {
      * headmaster.
      */
     public PlayerAppState(PlayerTypes type) {
-        this.type = type;
+        this.playerType = type;
     }
 
     /**
@@ -109,17 +113,27 @@ public class PlayerAppState extends SimpleAppState {
 
     /**
      * Attaches a player node to the {@code rootNode} and adds a
-     * {@link PlayerControl} to it. TODO: Add a {@link HeadmasterControl} or
+     * {@link PlayerControl} to it. Also adds a {@link HeadmasterControl} or
      * {@link StudentControl} based on the {@link PlayerTypes} to the node.
      */
     private void initNode() {
-        control = new PlayerControl(app.getCamera());
-        player = (Node) app.getAssetManager().loadModel("Models/Headmaster/" + type + ".j3o");
+        playerControl = new PlayerControl(app.getCamera());
+        studentControl = new StudentControl();
+        headmasterControl = new HeadmasterControl();
+        player = (Node) app.getAssetManager().loadModel("Models/" + playerType + "/" + playerType + ".j3o");
         player.setMaterial(SimpleMaterials.getMaterial(Materials.Player));
         player.rotateUpTo(new Vector3f(0, FastMath.PI / 2, 0));
-        player.addControl(control);
+        player.addControl(playerControl);
+        switch (playerType) {
+            case Student:
+                player.addControl(studentControl);
+                break;
+            case Headmaster:
+                player.addControl(headmasterControl);
+                break;
+        }
         physicsSpace.addAll(player);
-        physicsSpace.add(control);
+        physicsSpace.add(playerControl);
         rootNode.attachChild(player);
     }
 
@@ -135,9 +149,9 @@ public class PlayerAppState extends SimpleAppState {
     @Override
     public void onMappingAction(Mapping mapping, boolean isPressed, float tpf) {
         if (isPressed) {
-            control.setDirection(mapping);
+            playerControl.setDirection(mapping);
         } else {
-            control.setDirection(null);
+            playerControl.setDirection(null);
         }
     }
 }
