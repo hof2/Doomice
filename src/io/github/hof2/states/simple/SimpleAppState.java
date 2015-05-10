@@ -5,12 +5,13 @@ import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.AbstractAppState;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.input.controls.ActionListener;
+import com.jme3.input.controls.AnalogListener;
 
 /**
  * A simple implementation of {@link AbstractAppState} which assumes a
  * {@link SimpleApplication} is used.
  */
-public abstract class SimpleAppState extends AbstractAppState implements ActionListener {
+public abstract class SimpleAppState extends AbstractAppState implements ActionListener, AnalogListener {
 
     /**
      * The {@link SimpleApplication}.
@@ -57,5 +58,28 @@ public abstract class SimpleAppState extends AbstractAppState implements ActionL
      * @param tpf The time per frame value.
      */
     public void onMappingAction(Mapping mapping, boolean isPressed, float tpf) {
+    }
+
+    /**
+     * Converts the {@code name} parameter to a {@link Mapping} and calls
+     * {@code onMappingAnalog}.
+     *
+     * @param name The name of the mapping that was invoked.
+     * @param isPressed True if the action is "pressed", false otherwise.
+     * @param tpf The time per frame value.
+     */
+    @Override
+    public void onAnalog(String name, float value, float tpf) {
+        onMappingAnalog(Mapping.valueOf(name), value, tpf);
+    }
+
+    /**
+     * Can be overridden in subclasses to handle user input.
+     *
+     * @param mapping The {@link Mapping} that was invoked.
+     * @param isPressed True if the action is "pressed", false otherwise.
+     * @param tpf The time per frame value.
+     */
+    public void onMappingAnalog(Mapping mapping, float value, float tpf) {
     }
 }

@@ -4,8 +4,7 @@ import com.jme3.app.SimpleApplication;
 import io.github.hof2.states.GameAppState;
 
 /**
- *
- * @author christoph
+ * The Main class.
  */
 public class Main extends SimpleApplication {
 

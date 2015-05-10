@@ -74,7 +74,7 @@ public class SimpleMappings {
      * @throws Exception is thrown when mapping or trigger is already in use.
      */
     public void addMapping(InputListener listener, InputManager input, Mapping mapping, int... keys) throws Exception {
-        ArrayList<KeyTrigger> triggers = getAllTriggers();
+        ArrayList<KeyTrigger> triggers = new ArrayList<>();
         for (int keyCode : keys) {
             triggers.add(new KeyTrigger(keyCode));
         }
@@ -93,6 +93,7 @@ public class SimpleMappings {
         } else {
             throw new Exception("mapping already used");
         }
+        System.out.println(map);
     }
 
     /**

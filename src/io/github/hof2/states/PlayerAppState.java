@@ -147,11 +147,12 @@ public class PlayerAppState extends SimpleAppState {
      * @param tpf The time per frame value.
      */
     @Override
-    public void onMappingAction(Mapping mapping, boolean isPressed, float tpf) {
-        if (isPressed) {
-            playerControl.setDirection(mapping);
+    public void onMappingAnalog(Mapping mapping, float value, float tpf) {
+        System.out.println(mapping + "-" + value);
+        if (value > 0) {
+            playerControl.addDirection(mapping);
         } else {
-            playerControl.setDirection(null);
+            playerControl.removeDirection(mapping);
         }
     }
 }
