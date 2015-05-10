@@ -8,7 +8,7 @@ import io.github.hof2.states.simple.Mapping;
 import io.github.hof2.states.simple.SimpleQuaternions;
 
 /**
- * This is where the headmaster is controlled. The headmaster moves based on its
+ * This is where the player is controlled. The player moves based on its
  * {@code direction}.
  */
 public class PlayerControl extends BetterCharacterControl {
