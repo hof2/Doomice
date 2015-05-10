@@ -21,7 +21,7 @@ public class GameAppState extends SimpleAppState {
     private BulletAppState physics = new BulletAppState();
     private TerrainAppState terrain = new TerrainAppState();
     private LightAppState lighting = new LightAppState();
-    private PlayerAppState headmaster = new PlayerAppState(PlayerTypes.Student);
+    private PlayerAppState player = new PlayerAppState(PlayerTypes.Student);
     /* Global Parameters */
     /**
      * Defines the gravity for all in-game objects.
@@ -56,7 +56,7 @@ public class GameAppState extends SimpleAppState {
         super.cleanup();
         stateManager.detach(terrain);
         stateManager.detach(lighting);
-        stateManager.detach(headmaster);
+        stateManager.detach(player);
         stateManager.detach(physics);
     }
 
@@ -68,7 +68,7 @@ public class GameAppState extends SimpleAppState {
         stateManager.attach(physics);
         stateManager.attach(terrain);
         stateManager.attach(lighting);
-        stateManager.attach(headmaster);
+        stateManager.attach(player);
     }
 
     /**
