@@ -93,7 +93,6 @@ public class SimpleMappings {
         } else {
             throw new Exception("mapping already used");
         }
-        System.out.println(map);
     }
 
     /**

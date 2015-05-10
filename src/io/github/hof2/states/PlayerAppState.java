@@ -148,9 +148,8 @@ public class PlayerAppState extends SimpleAppState {
      */
     @Override
     public void onMappingAnalog(Mapping mapping, float value, float tpf) {
-        System.out.println(mapping + "-" + value);
         if (value > 0) {
-            playerControl.addDirection(mapping);
+            playerControl.addDirection(mapping, value);
         } else {
             playerControl.removeDirection(mapping);
         }
