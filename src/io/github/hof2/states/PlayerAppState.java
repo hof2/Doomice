@@ -11,6 +11,7 @@ import com.jme3.input.KeyInput;
 import com.jme3.math.FastMath;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
+import com.jme3.scene.control.Control;
 import io.github.hof2.controls.HeadmasterControl;
 import io.github.hof2.controls.PlayerControl;
 import io.github.hof2.controls.StudentControl;
@@ -72,7 +73,7 @@ public class PlayerAppState extends SimpleAppState {
 
     /**
      * Detaches the player from the {@code rootNode} and removes the mappings
-     * for player movement. This also re-enables the default
+     * for player movement and jumping. This also re-enables the default
      * {@link FlyByCamera}.
      *
      * @see SimpleAppState
@@ -82,12 +83,13 @@ public class PlayerAppState extends SimpleAppState {
     public void cleanup() {
         super.cleanup();
         rootNode.detachChild(player);
-        mappings.removeMappings(this, inputManager, Mapping.Left, Mapping.Right, Mapping.Forward, Mapping.Backward);
+        mappings.removeMappings(this, inputManager, Mapping.Left, Mapping.Right, Mapping.Forward, Mapping.Backward, Mapping.Jump);
         app.getFlyByCamera().setEnabled(true);
     }
 
     /**
-     * Adds keybindings for left, right, forward and backward movement.
+     * Adds keybindings for left, right, forward and backward movement and
+     * jumping.
      *
      * @throws Exception is thrown when a keybinding already exists
      */
@@ -96,6 +98,7 @@ public class PlayerAppState extends SimpleAppState {
         mappings.addMapping(this, inputManager, Mapping.Right, KeyInput.KEY_D, KeyInput.KEY_RIGHT);
         mappings.addMapping(this, inputManager, Mapping.Forward, KeyInput.KEY_W, KeyInput.KEY_UP);
         mappings.addMapping(this, inputManager, Mapping.Backward, KeyInput.KEY_S, KeyInput.KEY_DOWN);
+        mappings.addMapping(this, inputManager, Mapping.Jump, KeyInput.KEY_SPACE);
     }
 
     /**
@@ -139,19 +142,23 @@ public class PlayerAppState extends SimpleAppState {
 
     /**
      * Sets the direction of the {@link PlayerControl PlayerControl} to move the
-     * player.
+     * player or jump.
      *
      * @see SimpleAppState
-     * @param mapping The new direction.
+     * @param mapping The mapping.
      * @param isPressed If the key was pressed or released.
      * @param tpf The time per frame value.
      */
     @Override
     public void onMappingAnalog(Mapping mapping, float value, float tpf) {
-        if (value > 0) {
-            playerControl.addDirection(mapping, value);
+        if (mapping != Mapping.Jump) {
+            if (value > 0) {
+                playerControl.addDirection(mapping, value);
+            } else {
+                playerControl.removeDirection(mapping);
+            }
         } else {
-            playerControl.removeDirection(mapping);
+            playerControl.jump(value);
         }
     }
 }

@@ -13,13 +13,15 @@ import java.util.HashMap;
  * {@code direction}.
  */
 public class PlayerControl extends BetterCharacterControl {
-    
+
     private Camera cam;
     private static final float RADIUS = 1;
     private static final float HEIGHT = 3;
     private static final float MASS = 3;
     private static final float GROUND_SPEED = 50;
     private static final float AIR_SPEED = 30;
+    private static final float JUMP_FORCE = 1000;
+    private boolean jump;
     private HashMap<Mapping, Float> directions = new HashMap<>();
 
     /**
@@ -35,14 +37,19 @@ public class PlayerControl extends BetterCharacterControl {
         this.cam = cam;
         setGravity(GameAppState.GRAVITY);
     }
-    
+
     @Override
     public void update(float tpf) {
         super.update(tpf);
-        
+
+        if (jump) {
+            jump();
+            jump = false;
+        }
+
         Vector3f newViewDirection = cam.getDirection().setY(0);
         Vector3f newWalkDirection = newViewDirection.clone();
-        
+
         if (!directions.isEmpty()) {
             Vector3f commonDirection = new Vector3f(0, 0, 0);
             float directionNumber = 0;
@@ -71,10 +78,10 @@ public class PlayerControl extends BetterCharacterControl {
         } else {
             newWalkDirection.multLocal(0);
         }
-        
+
         setViewDirection(viewDirection.interpolate(newViewDirection, tpf));
         setWalkDirection(viewDirection.interpolate(newWalkDirection, tpf));
-        
+
         directions.clear();
     }
 
@@ -100,4 +107,14 @@ public class PlayerControl extends BetterCharacterControl {
     public void removeDirection(Mapping direction) {
         directions.remove(direction);
     }
+
+    /**
+     * Makes the player jump with a certain force (based on {@code JUMP_FORCE}.
+     *
+     * @param force The jump force.
+     */
+    public void jump(float force) {
+        setJumpForce(new Vector3f(0, force * JUMP_FORCE, 0));
+        jump = true;
+    } 
 }
