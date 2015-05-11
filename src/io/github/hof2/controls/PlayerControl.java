@@ -38,6 +38,14 @@ public class PlayerControl extends BetterCharacterControl {
         setGravity(GameAppState.GRAVITY);
     }
 
+    /**
+     * Updates the control by calling {@code jump()} if {@code jump} is set to
+     * {@code true}}, moving it into the average of all {@code directions} and
+     * setting the new {@code viewDirection} equal to the camera direction. Uses
+     * interpolation for smooth motion.
+     *
+     * @param tpf Time per frame.
+     */
     @Override
     public void update(float tpf) {
         super.update(tpf);
@@ -116,5 +124,5 @@ public class PlayerControl extends BetterCharacterControl {
     public void jump(float force) {
         setJumpForce(new Vector3f(0, force * JUMP_FORCE, 0));
         jump = true;
-    } 
+    }
 }
