@@ -11,7 +11,6 @@ import com.jme3.input.KeyInput;
 import com.jme3.math.FastMath;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
-import com.jme3.scene.control.Control;
 import io.github.hof2.controls.HeadmasterControl;
 import io.github.hof2.controls.PlayerControl;
 import io.github.hof2.controls.StudentControl;
