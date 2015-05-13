@@ -1,5 +1,6 @@
 package io.github.hof2.states.simple;
 
+import io.github.hof2.enums.Materials;
 import com.jme3.material.Material;
 import java.util.HashMap;
 

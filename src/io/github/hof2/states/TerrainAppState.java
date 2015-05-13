@@ -10,7 +10,7 @@ import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.terrain.geomipmap.TerrainQuad;
 import com.jme3.terrain.heightmap.HillHeightMap;
-import io.github.hof2.states.simple.Materials;
+import io.github.hof2.enums.Materials;
 import io.github.hof2.states.simple.SimpleAppState;
 import io.github.hof2.states.simple.SimpleMaterials;
 

@@ -1,5 +1,6 @@
 package io.github.hof2.states.simple;
 
+import io.github.hof2.enums.Mappings;
 import com.jme3.input.InputManager;
 import com.jme3.input.KeyInput;
 import com.jme3.input.controls.InputListener;
@@ -17,7 +18,7 @@ import java.util.HashMap;
  */
 public class SimpleMappings {
 
-    private HashMap<Mapping, ArrayList<KeyTrigger>> map = new HashMap<>();
+    private HashMap<Mappings, ArrayList<KeyTrigger>> map = new HashMap<>();
 
     private SimpleMappings() {
     }
@@ -46,7 +47,7 @@ public class SimpleMappings {
      * @param triggers Any amount of {@link KeyTrigger KeyTriggers}.
      * @throws Exception is thrown when mapping or trigger is already in use.
      */
-    public void addMapping(InputListener listener, InputManager input, Mapping mapping, KeyTrigger... triggers) throws Exception {
+    public void addMapping(InputListener listener, InputManager input, Mappings mapping, KeyTrigger... triggers) throws Exception {
         for (KeyTrigger oldKeyTrigger : getAllTriggers()) {
             for (KeyTrigger newKeyTrigger : triggers) {
                 if (oldKeyTrigger.equals(newKeyTrigger)) {
@@ -73,7 +74,7 @@ public class SimpleMappings {
      * @param triggers Any amount of {@link KeyInput KeyCodes}.
      * @throws Exception is thrown when mapping or trigger is already in use.
      */
-    public void addMapping(InputListener listener, InputManager input, Mapping mapping, int... keys) throws Exception {
+    public void addMapping(InputListener listener, InputManager input, Mappings mapping, int... keys) throws Exception {
         ArrayList<KeyTrigger> triggers = new ArrayList<>();
         for (int keyCode : keys) {
             triggers.add(new KeyTrigger(keyCode));
@@ -104,8 +105,8 @@ public class SimpleMappings {
      * @param input The {@link InputManager}.
      * @param mapping The {@link Mapping} to be removed.
      */
-    public void removeMappings(InputListener listener, InputManager input, Mapping... mappings) {
-        for (Mapping mapping : mappings) {
+    public void removeMappings(InputListener listener, InputManager input, Mappings... mappings) {
+        for (Mappings mapping : mappings) {
             input.deleteMapping(mapping.toString());
             map.remove(mapping);
         }

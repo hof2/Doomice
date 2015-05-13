@@ -1,4 +1,4 @@
-package io.github.hof2.states.simple;
+package io.github.hof2.enums;
 
 import com.jme3.terrain.geomipmap.TerrainQuad;
 

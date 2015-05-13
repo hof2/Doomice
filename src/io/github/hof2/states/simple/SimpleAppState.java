@@ -1,5 +1,6 @@
 package io.github.hof2.states.simple;
 
+import io.github.hof2.enums.Mappings;
 import com.jme3.app.Application;
 import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.AbstractAppState;
@@ -47,7 +48,7 @@ public abstract class SimpleAppState extends AbstractAppState implements ActionL
      */
     @Override
     public void onAction(String name, boolean isPressed, float tpf) {
-        onMappingAction(Mapping.valueOf(name), isPressed, tpf);
+        onMappingAction(Mappings.valueOf(name), isPressed, tpf);
     }
 
     /**
@@ -57,7 +58,7 @@ public abstract class SimpleAppState extends AbstractAppState implements ActionL
      * @param isPressed True if the action is "pressed", false otherwise.
      * @param tpf The time per frame value.
      */
-    public void onMappingAction(Mapping mapping, boolean isPressed, float tpf) {
+    public void onMappingAction(Mappings mapping, boolean isPressed, float tpf) {
     }
 
     /**
@@ -70,7 +71,7 @@ public abstract class SimpleAppState extends AbstractAppState implements ActionL
      */
     @Override
     public void onAnalog(String name, float value, float tpf) {
-        onMappingAnalog(Mapping.valueOf(name), value, tpf);
+        onMappingAnalog(Mappings.valueOf(name), value, tpf);
     }
 
     /**
@@ -80,6 +81,6 @@ public abstract class SimpleAppState extends AbstractAppState implements ActionL
      * @param isPressed True if the action is "pressed", false otherwise.
      * @param tpf The time per frame value.
      */
-    public void onMappingAnalog(Mapping mapping, float value, float tpf) {
+    public void onMappingAnalog(Mappings mapping, float value, float tpf) {
     }
 }

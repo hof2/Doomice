@@ -1,12 +1,13 @@
 package io.github.hof2.states;
 
+import io.github.hof2.enums.PlayerTypes;
 import com.jme3.app.Application;
 import com.jme3.app.state.AbstractAppState;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.material.Material;
 import com.jme3.math.Vector3f;
-import io.github.hof2.states.simple.Materials;
+import io.github.hof2.enums.Materials;
 import io.github.hof2.states.simple.SimpleMaterials;
 import io.github.hof2.states.simple.SimpleAppState;
 

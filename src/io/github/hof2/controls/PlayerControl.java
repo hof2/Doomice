@@ -4,7 +4,7 @@ import com.jme3.bullet.control.BetterCharacterControl;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
 import io.github.hof2.states.GameAppState;
-import io.github.hof2.states.simple.Mapping;
+import io.github.hof2.enums.Mappings;
 import io.github.hof2.states.simple.SimpleQuaternions;
 import java.util.HashMap;
 
@@ -22,7 +22,7 @@ public class PlayerControl extends BetterCharacterControl {
     private static final float AIR_SPEED = 30;
     private static final float JUMP_FORCE = 1000;
     private boolean jump;
-    private HashMap<Mapping, Float> directions = new HashMap<>();
+    private HashMap<Mappings, Float> directions = new HashMap<>();
 
     /**
      * Creates a new character with the given {@link Camera} to continously set
@@ -53,24 +53,24 @@ public class PlayerControl extends BetterCharacterControl {
         if (!directions.isEmpty()) {
             Vector3f commonDirection = new Vector3f(0, 0, 0);
             float directionNumber = 0;
-            if (directions.containsKey(Mapping.Left)) {
+            if (directions.containsKey(Mappings.Left)) {
                 commonDirection.addLocal(SimpleQuaternions.YAW090.mult(newWalkDirection)
-                        .mult(directions.get(Mapping.Left)));
+                        .mult(directions.get(Mappings.Left)));
                 directionNumber++;
             }
-            if (directions.containsKey(Mapping.Right)) {
+            if (directions.containsKey(Mappings.Right)) {
                 commonDirection.addLocal(SimpleQuaternions.YAW090.mult(newWalkDirection).negate()
-                        .mult(directions.get(Mapping.Right)));
+                        .mult(directions.get(Mappings.Right)));
                 directionNumber++;
             }
-            if (directions.containsKey(Mapping.Forward)) {
+            if (directions.containsKey(Mappings.Forward)) {
                 commonDirection.addLocal(newWalkDirection
-                        .mult(directions.get(Mapping.Forward)));
+                        .mult(directions.get(Mappings.Forward)));
                 directionNumber++;
             }
-            if (directions.containsKey(Mapping.Backward)) {
+            if (directions.containsKey(Mappings.Backward)) {
                 commonDirection.addLocal(newWalkDirection.negate()
-                        .mult(directions.get(Mapping.Backward)));
+                        .mult(directions.get(Mappings.Backward)));
                 directionNumber++;
             }
             newWalkDirection = commonDirection.divideLocal(directionNumber)
@@ -94,7 +94,7 @@ public class PlayerControl extends BetterCharacterControl {
      *
      * @param direction The direction to be added.
      */
-    public void addDirection(Mapping direction, float speed) {
+    public void addDirection(Mappings direction, float speed) {
         directions.put(direction, speed);
     }
 
@@ -104,7 +104,7 @@ public class PlayerControl extends BetterCharacterControl {
      *
      * @param direction The direction to be removed.
      */
-    public void removeDirection(Mapping direction) {
+    public void removeDirection(Mappings direction) {
         directions.remove(direction);
     }
 
