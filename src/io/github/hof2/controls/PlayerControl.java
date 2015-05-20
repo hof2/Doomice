@@ -21,7 +21,7 @@ public class PlayerControl extends BetterCharacterControl {
     private static final float GROUND_SPEED = 50;
     private static final float AIR_SPEED = 30;
     private static final float JUMP_FORCE = 1000;
-    private boolean jump;
+    private boolean doJump;
     private HashMap<Mappings, Float> directions = new HashMap<>();
 
     /**
@@ -50,9 +50,9 @@ public class PlayerControl extends BetterCharacterControl {
     public void update(float tpf) {
         super.update(tpf);
 
-        if (jump) {
+        if (doJump) {
             jump();
-            jump = false;
+            doJump = false;
         }
 
         Vector3f newViewDirection = cam.getDirection().setY(0);
@@ -123,6 +123,6 @@ public class PlayerControl extends BetterCharacterControl {
      */
     public void jump(float force) {
         setJumpForce(new Vector3f(0, force * JUMP_FORCE, 0));
-        jump = true;
+        doJump = true;
     }
 }
