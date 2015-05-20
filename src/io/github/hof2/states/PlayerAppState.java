@@ -38,7 +38,7 @@ public class PlayerAppState extends SimpleAppState {
     private PlayerTypes playerType;
 
     /**
-     * Set
+     * Sets the {@code playerType} to either student or headmaster.
      *
      * @param type the {@link PlayerTypes PlayerType}, can be either student or
      * headmaster.
