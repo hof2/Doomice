@@ -1,9 +1,9 @@
-package io.github.hof2.states.simple;
+package io.github.hof2.enums;
 
 /**
  * Defines all possible mappings for {@link SimpleMappings}.
  */
-public enum Mapping {
+public enum Mappings {
     /**
      * Move the player to the left.
      */

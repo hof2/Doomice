@@ -1,5 +1,6 @@
 package io.github.hof2.states;
 
+import io.github.hof2.enums.PlayerTypes;
 import com.jme3.app.Application;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.bullet.BulletAppState;
@@ -14,11 +15,11 @@ import com.jme3.scene.Node;
 import io.github.hof2.controls.HeadmasterControl;
 import io.github.hof2.controls.PlayerControl;
 import io.github.hof2.controls.StudentControl;
-import static io.github.hof2.states.PlayerTypes.Headmaster;
-import static io.github.hof2.states.PlayerTypes.Student;
+import static io.github.hof2.enums.PlayerTypes.Headmaster;
+import static io.github.hof2.enums.PlayerTypes.Student;
 import io.github.hof2.states.simple.SimpleMaterials;
-import io.github.hof2.states.simple.Mapping;
-import io.github.hof2.states.simple.Materials;
+import io.github.hof2.enums.Mappings;
+import io.github.hof2.enums.Materials;
 import io.github.hof2.states.simple.SimpleAppState;
 
 /**
@@ -82,7 +83,7 @@ public class PlayerAppState extends SimpleAppState {
     public void cleanup() {
         super.cleanup();
         rootNode.detachChild(player);
-        mappings.removeMappings(this, inputManager, Mapping.Left, Mapping.Right, Mapping.Forward, Mapping.Backward, Mapping.Jump);
+        mappings.removeMappings(this, inputManager, Mappings.Left, Mappings.Right, Mappings.Forward, Mappings.Backward, Mappings.Jump);
         app.getFlyByCamera().setEnabled(true);
     }
 
@@ -93,11 +94,11 @@ public class PlayerAppState extends SimpleAppState {
      * @throws Exception is thrown when a keybinding already exists
      */
     private void initKeybindings() throws Exception {
-        mappings.addMapping(this, inputManager, Mapping.Left, KeyInput.KEY_A, KeyInput.KEY_LEFT);
-        mappings.addMapping(this, inputManager, Mapping.Right, KeyInput.KEY_D, KeyInput.KEY_RIGHT);
-        mappings.addMapping(this, inputManager, Mapping.Forward, KeyInput.KEY_W, KeyInput.KEY_UP);
-        mappings.addMapping(this, inputManager, Mapping.Backward, KeyInput.KEY_S, KeyInput.KEY_DOWN);
-        mappings.addMapping(this, inputManager, Mapping.Jump, KeyInput.KEY_SPACE);
+        mappings.addMapping(this, inputManager, Mappings.Left, KeyInput.KEY_A, KeyInput.KEY_LEFT);
+        mappings.addMapping(this, inputManager, Mappings.Right, KeyInput.KEY_D, KeyInput.KEY_RIGHT);
+        mappings.addMapping(this, inputManager, Mappings.Forward, KeyInput.KEY_W, KeyInput.KEY_UP);
+        mappings.addMapping(this, inputManager, Mappings.Backward, KeyInput.KEY_S, KeyInput.KEY_DOWN);
+        mappings.addMapping(this, inputManager, Mappings.Jump, KeyInput.KEY_SPACE);
     }
 
     /**
@@ -149,8 +150,8 @@ public class PlayerAppState extends SimpleAppState {
      * @param tpf The time per frame value.
      */
     @Override
-    public void onMappingAnalog(Mapping mapping, float value, float tpf) {
-        if (mapping != Mapping.Jump) {
+    public void onMappingAnalog(Mappings mapping, float value, float tpf) {
+        if (mapping != Mappings.Jump) {
             if (value > 0) {
                 playerControl.addDirection(mapping, value);
             } else {

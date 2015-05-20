@@ -1,4 +1,4 @@
-package io.github.hof2.states;
+package io.github.hof2.enums;
 
 /**
  * Specifies the type of player. Can either be student or headmaster.
