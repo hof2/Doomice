@@ -82,6 +82,6 @@ public class GameAppState extends SimpleAppState {
     }
 
     private void initGuiPaths() {
-        SimpleGui.putGuiPath(Gui.ChoosePlayer, "Interface/NiftyGUI/ChoosePlayer.xml");
+        SimpleGui.putGuiPath(Gui.ChoosePlayer, "Interface/NiftyGUI/ChoosePlayerType.xml");
     }
 }
