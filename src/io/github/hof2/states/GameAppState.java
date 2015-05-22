@@ -7,9 +7,11 @@ import com.jme3.app.state.AppStateManager;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.material.Material;
 import com.jme3.math.Vector3f;
+import io.github.hof2.enums.Gui;
 import io.github.hof2.enums.Materials;
 import io.github.hof2.states.simple.SimpleMaterials;
 import io.github.hof2.states.simple.SimpleAppState;
+import io.github.hof2.states.simple.SimpleGui;
 
 /**
  * Stores common assets and handles the game overall, attaching other
@@ -17,12 +19,11 @@ import io.github.hof2.states.simple.SimpleAppState;
  */
 public class GameAppState extends SimpleAppState {
 
-    private AppStateManager stateManager;
     /* AppStates */
     private BulletAppState physics = new BulletAppState();
     private TerrainAppState terrain = new TerrainAppState();
     private LightAppState lighting = new LightAppState();
-    private PlayerAppState player = new PlayerAppState(PlayerTypes.Student);
+    private PlayerTypeAppState player = new PlayerTypeAppState();
     /* Global Parameters */
     /**
      * Defines the gravity for all in-game objects.
@@ -40,9 +41,9 @@ public class GameAppState extends SimpleAppState {
     @Override
     public void initialize(AppStateManager stateManager, Application app) {
         super.initialize(stateManager, app);
-        this.stateManager = stateManager;
 
         initMaterials(app);
+        initGuiPaths();
         initAppStates();
     }
 
@@ -78,5 +79,9 @@ public class GameAppState extends SimpleAppState {
     private void initMaterials(Application app) {
         SimpleMaterials.putMaterial(Materials.Floor, new Material(app.getAssetManager(), "Common/MatDefs/Light/Lighting.j3md"));
         SimpleMaterials.putMaterial(Materials.Player, new Material(app.getAssetManager(), "Common/MatDefs/Light/Lighting.j3md"));
+    }
+
+    private void initGuiPaths() {
+        SimpleGui.putGuiPath(Gui.ChoosePlayer, "Interface/NiftyGUI/ChoosePlayer.xml");
     }
 }

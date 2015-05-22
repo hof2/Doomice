@@ -1,4 +1,4 @@
-package io.github.hof2.states.simple;
+package io.github.hof2.enums;
 
 import io.github.hof2.controls.HeadmasterControl;
 import io.github.hof2.controls.StudentControl;

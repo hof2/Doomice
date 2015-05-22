@@ -2,15 +2,15 @@
 <nifty xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://nifty-gui.lessvoid.com/nifty-gui" xsi:schemaLocation="https://raw.githubusercontent.com/void256/nifty-gui/1.4/nifty-core/src/main/resources/nifty.xsd https://raw.githubusercontent.com/void256/nifty-gui/1.4/nifty-core/src/main/resources/nifty.xsd">
     <useControls filename="nifty-default-controls.xml"/>
     <useStyles filename="nifty-default-styles.xml"/>
-    <screen id="Start" controller="io.github.hof2.states.PlayerTypeAppState">
-        <layer id="GLayer0" childLayout="center">
-            <panel id="GPanel0" childLayout="center" width="44%" x="27%" y="17%" style="nifty-panel-simple" height="36%">
-                <panel id="GPanel1" childLayout="horizontal" width="204px" x="393px" y="296px" style="nifty-panel-simple" height="102px">
+    <screen id="Start" controller="io.github.hof2.states.PlayerTypeAppState" >
+        <layer id="GLayer0" childLayout="center" >
+            <panel id="GPanel0" childLayout="center" width="44%" x="27%" y="17%" style="nifty-panel-simple" height="36%" backgroundColor="#000F">
+                <panel id="GPanel1" childLayout="horizontal" width="204px" x="393px" y="296px" style="nifty-panel-simple" height="102px"  backgroundColor="#000F">
                     <control name="button" id="Student" childLayout="center" x="19px" width="94px" y="27px" label="Student" height="100.0%">
-                        <interact onClick='startGame("Student")'/>
+                        <interact onClick="startGame(${CALL.getStudent()})"/>
                     </control>
                     <control name="button" id="Headmaster" childLayout="center" backgroundImage="button/button.png" x="12" y="7" label="Headmaster" align="center" height="100.0%">
-                        <interact onClick='startGame("Student")'/>
+                        <interact onClick="startGame(${CALL.getHeadmaster()})"/>
                     </control>
                 </panel>
             </panel>
