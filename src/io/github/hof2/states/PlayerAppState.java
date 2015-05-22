@@ -50,6 +50,7 @@ public class PlayerAppState extends SimpleAppState {
     /**
      * Sets the {@code inputManager}, {@code rootNode} and {@code physicsSpace}.
      * Calls {@code initNode}, {@code initCamera}, {@code initKeybindings}.
+     * Also detaches the {@link PlayerTypeAppState} from the Application
      *
      * @see SimpleAppState
      * @see AbstractAppState
@@ -69,6 +70,7 @@ public class PlayerAppState extends SimpleAppState {
         } catch (Exception ex) {
             System.out.println("PlayerAppState : Failed to bind keys");
         }
+        stateManager.detach(stateManager.getState(PlayerTypeAppState.class));
     }
 
     /**
@@ -112,6 +114,7 @@ public class PlayerAppState extends SimpleAppState {
         cam.setTrailingEnabled(false);
         cam.setLookAtOffset(new Vector3f(0, 2.5f, 0));
         cam.setZoomSensitivity(3f);
+        cam.setInvertVerticalAxis(true);
     }
 
     /**

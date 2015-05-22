@@ -19,13 +19,18 @@ public abstract class SimpleAppState extends AbstractAppState implements ActionL
      */
     public SimpleApplication app;
     /**
+     * The corresponding {@link AppStateManager}
+     */
+    public AppStateManager stateManager;
+    /**
      * An instance of the {@link SimpleMappings} helper class.
      */
     public SimpleMappings mappings = SimpleMappings.getInstance();
 
     /**
      * Casts the {@link Application} to a {@link SimpleApplication} if possible
-     * and writes it to the {@code app} variable.
+     * and writes it to the {@code app} variable. Also initializes the 
+     * {@code stateManager} variable
      *
      * @param stateManager The state manager
      * @param app The application
@@ -36,6 +41,7 @@ public abstract class SimpleAppState extends AbstractAppState implements ActionL
         if (app instanceof SimpleApplication) {
             this.app = (SimpleApplication) app;
         }
+        this.stateManager = stateManager;
     }
 
     /**
