@@ -3,8 +3,11 @@ package io.github.hof2.controls;
 import com.jme3.bullet.control.BetterCharacterControl;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
+import com.jme3.scene.control.AbstractControl;
+import io.github.hof2.collection.Player;
 import io.github.hof2.states.GameAppState;
 import io.github.hof2.enums.Mappings;
+import io.github.hof2.enums.PlayerTypes;
 import io.github.hof2.states.simple.SimpleQuaternions;
 import java.util.HashMap;
 
@@ -23,6 +26,7 @@ public class PlayerControl extends BetterCharacterControl {
     private static final float JUMP_FORCE = 1000;
     private boolean doJump;
     private HashMap<Mappings, Float> directions = new HashMap<>();
+    private Player player;
 
     /**
      * Creates a new character with the given {@link Camera} to continously set
@@ -91,6 +95,8 @@ public class PlayerControl extends BetterCharacterControl {
         setWalkDirection(viewDirection.interpolate(newWalkDirection, tpf));
 
         directions.clear();
+
+        player.setPosition(getSpatialTranslation());
     }
 
     /**
@@ -124,5 +130,26 @@ public class PlayerControl extends BetterCharacterControl {
     public void jump(float force) {
         setJumpForce(new Vector3f(0, force * JUMP_FORCE, 0));
         doJump = true;
+    }
+
+    /**
+     * Adds a {@link AbstractControl Control} to the {@link PlayerControl}.
+     *
+     * @param control The {@link AbstractControl Control}.
+     */
+    public void addControl(AbstractControl control) {
+        if (control instanceof HeadmasterControl) {
+            player.setType(PlayerTypes.Headmaster);
+        } else if (control instanceof StudentControl) {
+            player.setType(PlayerTypes.Student);
+        }
+    }
+
+    /**
+     * Gets the {@link Player} data object for multiplayer.
+     * @return The {@link Player}.
+     */
+    public Player getPlayer() {
+        return player;
     }
 }

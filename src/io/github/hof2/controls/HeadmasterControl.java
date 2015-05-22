@@ -21,20 +21,20 @@ public class HeadmasterControl extends AbstractControl {
         //TODO: add code that controls Spatial,
         //e.g. spatial.rotate(tpf,tpf,tpf);
     }
-    
+
     @Override
     protected void controlRender(RenderManager rm, ViewPort vp) {
         //Only needed for rendering-related operations,
         //not called when spatial is culled.
     }
-    
+
     @Override
     public Control cloneForSpatial(Spatial spatial) {
         HeadmasterControl control = new HeadmasterControl();
         //TODO: copy parameters to new Control
         return control;
     }
-    
+
     @Override
     public void read(JmeImporter im) throws IOException {
         super.read(im);
@@ -42,7 +42,7 @@ public class HeadmasterControl extends AbstractControl {
         //TODO: load properties of this Control, e.g.
         //this.value = in.readFloat("name", defaultValue);
     }
-    
+
     @Override
     public void write(JmeExporter ex) throws IOException {
         super.write(ex);

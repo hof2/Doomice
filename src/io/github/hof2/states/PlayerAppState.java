@@ -12,6 +12,7 @@ import com.jme3.input.KeyInput;
 import com.jme3.math.FastMath;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
+import io.github.hof2.collection.PlayerCollection;
 import io.github.hof2.controls.HeadmasterControl;
 import io.github.hof2.controls.PlayerControl;
 import io.github.hof2.controls.StudentControl;
@@ -36,7 +37,8 @@ public class PlayerAppState extends SimpleAppState {
     private Node rootNode;
     private PhysicsSpace physicsSpace;
     private PlayerTypes playerType;
-
+    private PlayerCollection players;
+    
     /**
      * Sets the {@code playerType} to either student or headmaster.
      *
@@ -62,6 +64,7 @@ public class PlayerAppState extends SimpleAppState {
         inputManager = this.app.getInputManager();
         rootNode = this.app.getRootNode();
         physicsSpace = stateManager.getState(BulletAppState.class).getPhysicsSpace();
+        players = PlayerCollection.getInstance();
         initNode();
         initCamera();
         try {
@@ -82,6 +85,7 @@ public class PlayerAppState extends SimpleAppState {
     @Override
     public void cleanup() {
         super.cleanup();
+        players.removePlayer(playerControl.getPlayer());
         rootNode.detachChild(player);
         mappings.removeMappings(this, inputManager, Mappings.Left, Mappings.Right, Mappings.Forward, Mappings.Backward, Mappings.Jump);
         app.getFlyByCamera().setEnabled(true);
@@ -138,6 +142,7 @@ public class PlayerAppState extends SimpleAppState {
         physicsSpace.addAll(player);
         physicsSpace.add(playerControl);
         rootNode.attachChild(player);
+        players.addPlayer(playerControl.getPlayer());
     }
 
     /**
