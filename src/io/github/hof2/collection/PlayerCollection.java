@@ -1,7 +1,11 @@
 package io.github.hof2.collection;
 
+import io.github.hof2.states.MultiplayerAppState;
 import java.util.ArrayList;
 
+/**
+ * Contains all other players, and is used in {@link MultiplayerAppState}.
+ */
 public class PlayerCollection {
 
     private ArrayList<Player> players = new ArrayList<>();
