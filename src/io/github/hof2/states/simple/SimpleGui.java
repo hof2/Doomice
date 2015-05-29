@@ -1,5 +1,6 @@
 package io.github.hof2.states.simple;
 
+import io.github.hof2.enums.Gui;
 import de.lessvoid.nifty.Nifty;
 import java.util.HashMap;
 
