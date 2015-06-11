@@ -95,8 +95,6 @@ public class PlayerControl extends BetterCharacterControl {
         setWalkDirection(viewDirection.interpolate(newWalkDirection, tpf));
 
         directions.clear();
-
-        player.setPosition(getSpatialTranslation());
     }
 
     /**
