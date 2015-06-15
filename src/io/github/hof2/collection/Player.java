@@ -2,45 +2,84 @@ package io.github.hof2.collection;
 
 import com.jme3.math.Vector3f;
 import io.github.hof2.enums.PlayerTypes;
+import io.github.hof2.states.MultiplayerAppState;
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
- * This beans class is used to transfer player information over the network for
- * multiplayer.
+ * Data class which is used for sending {@link MultiplayerAppState Multiplayer}
+ * information.
  */
 public class Player implements Serializable {
 
-    private PlayerTypes type;
     private Vector3f position;
-
-    /**
-     * Creates a new object with the {@link PlayerTypes PlayerType} and
-     * {@link Vector3f position} of the player.
-     */
-    public Player(PlayerTypes type, Vector3f position) {
-        this.type = type;
-        this.position = position;
-    }
+    private Vector3f viewDirection;
+    private PlayerTypes type;
+    private String id;
 
     /**
      * Creates a new {@link Player} object.
+     * @param position the {@link Vector3f Position}.
+     * @param type the {@link PlayerTypes PlayerType}.
+     * @param viewDirection the {@link Vector3f ViewDirection}.
+     * @param id the unique player id.
      */
-    public Player() {
+    public Player(Vector3f position, PlayerTypes type, Vector3f viewDirection, String id) {
+        this.position = position;
+        this.type = type;
+        this.viewDirection = viewDirection;
+        this.id = id;
     }
 
     /**
-     * Sets the {@link PlayerTypes PlayerType}.
-     * @param type The {@link PlayerTypes PlayerType}. 
+     * Gets the current {@link Vector3f Position}.
+     * @return the {@link Vector3f Position}.
      */
-    public void setType(PlayerTypes type) {
-        this.type = type;
+    public Vector3f getPosition() {
+        return position;
     }
-    
+
     /**
-     * Sets the {@link Vector3f position}.
-     * @param type The {@link Vector3f position}. 
+     * Gets the {@link PlayerTypes PlayerType}.
+     * @return the {@link PlayerTypes PlayerType}.
      */
-    public void setPosition(Vector3f position) {
-        this.position = position;
+    public PlayerTypes getType() {
+        return type;
+    }
+
+    /**
+     * Gets the current {@link Vector3f ViewDirection}.
+     * @return the {@link Vector3f ViewDirection}.
+     */
+    public Vector3f getViewDirection() {
+        return viewDirection;
+    }
+
+    /**
+     * Used to check if two {@link Player Players} are equal.
+     * @param obj The {@link Player} to compare to.
+     * @return {@code true} if both {@link Player Players} are equal, {@code false} if unequal.
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Player other = (Player) obj;
+        if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Gets the unique {@link Player} id.
+     * @return the {@link Player} id.
+     */
+    public String getId() {
+        return id;
     }
 }

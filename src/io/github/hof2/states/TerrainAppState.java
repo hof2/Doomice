@@ -26,6 +26,7 @@ public class TerrainAppState extends SimpleAppState {
     private static final int MAP_MIN_RADIUS = 50;
     private static final int MAP_MAX_RADIUS = 120;
     private static final int MAP_NORMALIZE_RANGE = 100;
+    private static final int SEED = 100;
     private PhysicsSpace physicsSpace;
     private Node rootNode;
     private TerrainQuad terrain;
@@ -95,7 +96,7 @@ public class TerrainAppState extends SimpleAppState {
      */
     private float[] getRandomHillHeightMap() throws Exception {
         HillHeightMap.NORMALIZE_RANGE = MAP_NORMALIZE_RANGE;
-        HillHeightMap map = new HillHeightMap(TOTAL_SIZE, MAP_ITERATIONS, MAP_MIN_RADIUS, MAP_MAX_RADIUS);
+        HillHeightMap map = new HillHeightMap(TOTAL_SIZE, MAP_ITERATIONS, MAP_MIN_RADIUS, MAP_MAX_RADIUS, SEED);
         return map.getHeightMap();
     }
 }
