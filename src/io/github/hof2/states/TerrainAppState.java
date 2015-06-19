@@ -25,15 +25,17 @@ public class TerrainAppState extends SimpleAppState {
     private static final int MAP_ITERATIONS = 512;
     private static final int MAP_MIN_RADIUS = 50;
     private static final int MAP_MAX_RADIUS = 120;
-    private static final int MAP_NORMALIZE_RANGE = 100;
+    private static final int MAP_NORMALIZE_RANGE = 0;
     private PhysicsSpace physicsSpace;
     private Node rootNode;
     private TerrainQuad terrain;
     private RigidBodyControl control = new RigidBodyControl(0);
-
+    private SchoolAppState school;
+    
     /**
      * Calls {@code initTerrain} and sets the {@code physicsSpace} and
      * {@code rootNode}.
+     * Initializes the {@link SchoolAppState School} to be displayed on the surface
      *
      * @see SimpleAppState
      * @see AbstractAppState
@@ -46,7 +48,8 @@ public class TerrainAppState extends SimpleAppState {
 
         physicsSpace = stateManager.getState(BulletAppState.class).getPhysicsSpace();
         rootNode = this.app.getRootNode();
-
+        school=new SchoolAppState(LOCAL_TRANSLATION);
+        stateManager.attach(school);
         try {
             initTerrain();
         } catch (Exception ex) {
@@ -73,7 +76,7 @@ public class TerrainAppState extends SimpleAppState {
     }
 
     /**
-     * Removes the {@link TerrainQuad} from the scene.
+     * Removes the {@link TerrainQuad} and the {@link SchoolAppState} from the scene.
      *
      * @see SimpleAppState
      * @see AbstractAppState
@@ -82,6 +85,7 @@ public class TerrainAppState extends SimpleAppState {
     public void cleanup() {
         super.cleanup();
         rootNode.detachChild(terrain);
+        stateManager.detach(school);
     }
 
     /**

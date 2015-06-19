@@ -96,7 +96,7 @@ public class PlayerControl extends BetterCharacterControl {
 
         directions.clear();
 
-        player.setPosition(getSpatialTranslation());
+//        player.setPosition(getSpatialTranslation());
     }
 
     /**

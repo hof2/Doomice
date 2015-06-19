@@ -1,6 +1,7 @@
 package io.github.hof2.enums;
 
 import com.jme3.terrain.geomipmap.TerrainQuad;
+import io.github.hof2.states.SchoolAppState;
 
 /**
  * Defines all {@link Materials} for {@link SimpleMaterials}.
@@ -13,5 +14,9 @@ public enum Materials {
     /**
      * The material the player node consist of.
      */
-    Player
+    Player,
+    /**
+     * The material of the {@link SchoolAppState school} 
+     */
+    School
 }
