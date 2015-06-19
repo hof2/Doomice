@@ -71,7 +71,6 @@ public class PlayerAppState extends SimpleAppState {
         } catch (Exception ex) {
             System.out.println("Error: Failed to bind keys");
         }
-        stateManager.detach(stateManager.getState(PlayerTypeAppState.class));
     }
 
     /**

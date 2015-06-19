@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<nifty xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://nifty-gui.lessvoid.com/nifty-gui" xsi:schemaLocation="https://raw.githubusercontent.com/void256/nifty-gui/1.4/nifty-core/src/main/resources/nifty.xsd https://raw.githubusercontent.com/void256/nifty-gui/1.4/nifty-core/src/main/resources/nifty.xsd">
+    <useControls filename="nifty-default-controls.xml"/>
+    <useStyles filename="nifty-default-styles.xml"/>
+    <screen id="Start" controller="io.github.hof2.states.MultiplayerAppState">
+        <layer id="GLayer0" childLayout="center">
+            <panel id="GPanel0" childLayout="center" backgroundColor="#000F" width="44%" x="27%" y="17%" style="nifty-panel-simple" height="36%">
+                <panel id="GPanel1" childLayout="horizontal" backgroundColor="#000F" width="268px" x="393px" y="296px" style="nifty-panel-simple" height="146px">
+                    <control name="textfield" id="ipText" width="157px" x="-1px" y="-1px" text="127.0.0.1" height="36px"/>
+                    <control name="button" id="ipButton" childLayout="center" x="-1px" width="100px" y="-1px" label="connect to ip" height="35px">
+                        <interact onClick="connectTo()"/>
+                    </control>
+                </panel>
+                <control name="button" id="startButton" childLayout="center" label="start server" align="center">
+                    <interact onClick="startServer()"/>
+                </control>
+            </panel>
+        </layer>
+    </screen>
+</nifty>

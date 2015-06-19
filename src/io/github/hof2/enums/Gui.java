@@ -12,5 +12,9 @@ public enum Gui {
      * The screen used to choose between {@link HeadmasterControl Headmaster}
      * and {@link StudentControl Student}.
      */
-    ChoosePlayer
+    ChoosePlayer, 
+    /**
+     * The screen used to connect to a server or start a personal server.
+     */
+    HandleMultiplayer
 }

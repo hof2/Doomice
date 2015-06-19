@@ -2,15 +2,23 @@ package io.github.hof2.states;
 
 import com.jme3.app.Application;
 import com.jme3.app.state.AppStateManager;
+import com.jme3.niftygui.NiftyJmeDisplay;
 import com.jme3.scene.Node;
+import de.lessvoid.nifty.Nifty;
+import de.lessvoid.nifty.controls.TextField;
+import de.lessvoid.nifty.elements.render.TextRenderer;
+import de.lessvoid.nifty.screen.Screen;
+import de.lessvoid.nifty.screen.ScreenController;
 import io.github.hof2.client.PlayerClient;
 import io.github.hof2.collection.Player;
 import io.github.hof2.collection.PlayerCollection;
 import static io.github.hof2.collection.PlayerCollection.players;
 import io.github.hof2.controls.PlayerControl;
 import io.github.hof2.enums.Communications;
+import io.github.hof2.enums.Gui;
 import io.github.hof2.server.PlayerServer;
 import io.github.hof2.states.simple.SimpleAppState;
+import io.github.hof2.states.simple.SimpleGui;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
@@ -21,12 +29,14 @@ import java.util.ArrayList;
  * {@link PlayerServer Server} if there isn't already a
  * {@link PlayerServer Server} running on the localhost.
  */
-public class MultiplayerAppState extends SimpleAppState {
+public class MultiplayerAppState extends SimpleAppState implements ScreenController {
 
     private PlayerClient client;
     private PlayerServer server;
     private float time;
     private PlayerAppState playerAppState;
+    private static final boolean ENABLE_HORDE = false;
+    private NiftyJmeDisplay display;
     /**
      * The port used for all communications
      */
@@ -43,20 +53,62 @@ public class MultiplayerAppState extends SimpleAppState {
     @Override
     public void initialize(AppStateManager stateManager, Application app) {
         super.initialize(stateManager, app);
+        initGui();
+    }
+
+    /**
+     * Sets up the NiftyGui.
+     */
+    private void initGui() {
+        display = stateManager.getState(PlayerTypeAppState.class).getDisplay();
+        Nifty nifty = display.getNifty();
+        nifty.fromXml(SimpleGui.getGuiPath(Gui.HandleMultiplayer), "Start", this);
+        app.getGuiViewPort().addProcessor(display);
+    }
+
+    /**
+     * Called when the user tries to connect to a certain server ip.
+     */
+    public void connectTo() {
         try {
+            client = new PlayerClient(new Socket(getTextById("ipText"), PORT));
+            client.start();
+            startGame();
+        } catch (IOException ex) {
+            System.out.println("Error: " + ex);
+        }
+    }
+
+    /**
+     * Gets the current text from any currently existing nifty element based on its id.
+     * @param id the id of th element.
+     * @return the text of the element.
+     */
+    private String getTextById(String id) {
+        return display.getNifty().getCurrentScreen().findNiftyControl(id, TextField.class).getDisplayedText();
+    }
+
+    /**
+     * Called when the user decides to host a server.
+     */
+    public void startServer() {
+        try {
+            server = new PlayerServer(PORT);
+            server.start();
             client = new PlayerClient(new Socket(InetAddress.getLocalHost(), PORT));
             client.start();
-        } catch (Exception e) {
-            System.out.println("No server running yet, starting a new one...");
-            try {
-                server = new PlayerServer(4242);
-                server.start();
-                client = new PlayerClient(new Socket(InetAddress.getLocalHost(), PORT));
-                client.start();
-            } catch (IOException ex) {
-                System.out.println("Error: " + ex);
-            }
+            startGame();
+        } catch (IOException ex) {
+            System.out.println("Error: " + ex);
         }
+    }
+
+    /**
+     * Removes the multiplayer gui and starts the game.
+     */
+    private void startGame() {
+        app.getGuiViewPort().removeProcessor(display);
+        stateManager.attach(stateManager.getState(PlayerTypeAppState.class).getPlayerAppState());
     }
 
     /**
@@ -74,6 +126,8 @@ public class MultiplayerAppState extends SimpleAppState {
             }
         } catch (IOException ex) {
             System.out.println("Error: " + ex);
+        } catch (NullPointerException ex) {
+            //this happens when the user exists before connecting to a server
         }
     }
 
@@ -100,16 +154,15 @@ public class MultiplayerAppState extends SimpleAppState {
     @Override
     public void update(float tpf) {
         try {
-            if ((time += tpf) >= 1) {
+            if ((time += tpf) >= 0.5) {
                 time = 0;
-                if (playerAppState != null) {
+                if (playerAppState != null && client != null && !client.isClosed()) {
                     PlayerControl control = playerAppState.getPlayerControl();
                     client.send(new Player(control.getLocation().clone(), control.getType(), control.getViewDirection().clone(), control.getName()));
                     ArrayList<Player> response = (ArrayList<Player>) client.performRequest(Communications.UPDATE);
                     for (Player player : response) {
-                        String id = player.getId();
+                        String id = ENABLE_HORDE ? control.getName() : player.getId();
                         if (!players.containsKey(id)) {
-                            System.out.println(player.getId() + " _ " + players.keySet());
                             players.put(id, createPlayer(player));
                         } else if (!players.get(id).isLocal()) {
                             control = players.get(id);
@@ -124,5 +177,29 @@ public class MultiplayerAppState extends SimpleAppState {
         } catch (IOException | ClassNotFoundException | InterruptedException ex) {
             System.out.println("Error: " + ex);
         }
+    }
+
+    /**
+     * nothing happens here
+     *
+     * @param nifty
+     * @param screen
+     */
+    @Override
+    public void bind(Nifty nifty, Screen screen) {
+    }
+
+    /**
+     * Nothing happens
+     */
+    @Override
+    public void onStartScreen() {
+    }
+
+    /**
+     * Nothing happens
+     */
+    @Override
+    public void onEndScreen() {
     }
 }

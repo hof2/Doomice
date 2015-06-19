@@ -23,7 +23,6 @@ public class GameAppState extends SimpleAppState {
     private TerrainAppState terrain = new TerrainAppState();
     private LightAppState lighting = new LightAppState();
     private PlayerTypeAppState player = new PlayerTypeAppState();
-    private MultiplayerAppState multi = new MultiplayerAppState();
     /* Global Parameters */
     /**
      * Defines the gravity for all in-game objects.
@@ -61,7 +60,6 @@ public class GameAppState extends SimpleAppState {
         stateManager.detach(lighting);
         stateManager.detach(player);
         stateManager.detach(physics);
-        stateManager.detach(multi);
     }
 
     /**
@@ -73,7 +71,6 @@ public class GameAppState extends SimpleAppState {
         stateManager.attach(terrain);
         stateManager.attach(lighting);
         stateManager.attach(player);
-        stateManager.attach(multi);
     }
 
     /**
@@ -87,5 +84,6 @@ public class GameAppState extends SimpleAppState {
 
     private void initGuiPaths() {
         SimpleGui.putGuiPath(Gui.ChoosePlayer, "Interface/NiftyGUI/ChoosePlayerType.xml");
+        SimpleGui.putGuiPath(Gui.HandleMultiplayer, "Interface/NiftyGUI/HandleMultiplayer.xml");
     }
 }

@@ -29,6 +29,7 @@ import io.github.hof2.states.simple.SimpleGui;
 public class PlayerTypeAppState extends SimpleAppState implements ScreenController {
 
     private PlayerAppState player;
+    private MultiplayerAppState multi;
     private NiftyJmeDisplay display;
 
     /**
@@ -50,18 +51,6 @@ public class PlayerTypeAppState extends SimpleAppState implements ScreenControll
         nifty.fromXml(SimpleGui.getGuiPath(Gui.ChoosePlayer), "Start", this);
         app.getGuiViewPort().addProcessor(display);
         this.app.getFlyByCamera().setDragToRotate(true);
-
-
-    }
-
-    /**
-     * Nothing happens in that update
-     *
-     * @param tpf
-     */
-    @Override
-    public void update(float tpf) {
-        //TODO: implement behavior during runtime
     }
 
     /**
@@ -72,7 +61,6 @@ public class PlayerTypeAppState extends SimpleAppState implements ScreenControll
     @Override
     public void cleanup() {
         super.cleanup();
-        app.getGuiViewPort().removeProcessor(display);
     }
 
     /**
@@ -107,9 +95,10 @@ public class PlayerTypeAppState extends SimpleAppState implements ScreenControll
      * @param type
      */
     public void startGame(String type) {
-        System.out.println("Hallo");
         player = new PlayerAppState(type.equals("Student") ? PlayerTypes.Student : PlayerTypes.Headmaster);
-        stateManager.attach(player);
+        multi = new MultiplayerAppState();
+        stateManager.attach(multi);
+        app.getGuiViewPort().removeProcessor(display);
     }
 
     /**
@@ -129,5 +118,21 @@ public class PlayerTypeAppState extends SimpleAppState implements ScreenControll
      */
     public String getHeadmaster() {
         return "Headmaster";
+    }
+    
+    /**
+     * Gets the generated {@link PlayerAppState}.
+     * @return the {@link PlayerAppState}.
+     */
+    public PlayerAppState getPlayerAppState() {
+        return player;
+    }
+    
+    /**
+     * Gets the global {@link NiftyJmeDisplay} instance.
+     * @return the {@link NiftyJmeDisplay}.
+     */
+    public NiftyJmeDisplay getDisplay() {
+        return display;
     }
 }
