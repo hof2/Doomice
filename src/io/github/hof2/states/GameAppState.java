@@ -28,7 +28,7 @@ public class GameAppState extends SimpleAppState {
     /**
      * Defines the gravity for all in-game objects.
      */
-    public static final Vector3f GRAVITY = new Vector3f(0, 20f, 0);
+    public static final Vector3f GRAVITY = new Vector3f(0, 1f, 0);
 
     /**
      * Calls {@code initMaterials} and {@code initAppStates}.

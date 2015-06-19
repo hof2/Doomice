@@ -47,7 +47,7 @@ public class MultiplayerAppState extends SimpleAppState {
             client = new PlayerClient(new Socket(InetAddress.getLocalHost(), PORT));
             client.start();
         } catch (Exception e) {
-            System.out.println("No server running yet, starting a new one!");
+            System.out.println("No server running yet, starting a new one...");
             try {
                 server = new PlayerServer(4242);
                 server.start();

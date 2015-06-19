@@ -4,15 +4,10 @@ package io.github.hof2.states;
 import com.jme3.app.Application;
 import io.github.hof2.states.simple.SimpleAppState;
 import com.jme3.app.state.AppStateManager;
-import com.jme3.asset.AssetManager;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.control.RigidBodyControl;
-import com.jme3.math.FastMath;
 import com.jme3.math.Vector3f;
-import com.jme3.scene.Geometry;
-import com.jme3.scene.Mesh;
 import com.jme3.scene.Node;
-import com.jme3.scene.Spatial;
 import io.github.hof2.enums.Materials;
 import io.github.hof2.states.simple.SimpleMaterials;
 

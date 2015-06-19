@@ -7,6 +7,7 @@ import com.jme3.light.DirectionalLight;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
+import com.jme3.shadow.DirectionalLightShadowRenderer;
 import io.github.hof2.states.simple.SimpleAppState;
 import io.github.hof2.states.simple.SimpleColors;
 
@@ -31,19 +32,20 @@ public class LightAppState extends SimpleAppState {
     public void initialize(AppStateManager stateManager, Application app) {
         super.initialize(stateManager, app);
         rootNode = this.app.getRootNode();
-        
+
         initAmbient();
         initDirectional();
+        initShadow();
     }
-    
+
     /**
      * Adds an {@link AmbientLight} to the scene.
      */
     private void initAmbient() {
-        ambient.setColor(ColorRGBA.White);
+        ambient.setColor(SimpleColors.CONCRETE);
         rootNode.addLight(ambient);
     }
-    
+
     /**
      * Adds a {@link DirectionalLight} to the scene.
      */
@@ -54,7 +56,20 @@ public class LightAppState extends SimpleAppState {
     }
 
     /**
+     *
+     */
+    private void initShadow() {
+        /* this shadow needs a directional light */
+        DirectionalLightShadowRenderer dlsr = new DirectionalLightShadowRenderer(app.getAssetManager(), 1024, 2);
+        dlsr.setLight(directional);
+        dlsr.displayFrustum();
+        dlsr.displayDebug();
+        app.getViewPort().addProcessor(dlsr);
+    }
+
+    /**
      * Removes the lights from the scene.
+     *
      * @see SimpleAppState
      * @see AbstractAppState
      */

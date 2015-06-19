@@ -1,6 +1,7 @@
 package io.github.hof2.enums;
 
 import com.jme3.terrain.geomipmap.TerrainQuad;
+import io.github.hof2.states.SchoolAppState;
 
 /**
  * Defines all {@link Materials} for {@link SimpleMaterials}.

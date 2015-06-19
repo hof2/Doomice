@@ -1,6 +1,5 @@
 package io.github.hof2.server;
 
-import com.jme3.math.Vector3f;
 import io.github.hof2.client.PlayerClient;
 import io.github.hof2.collection.Player;
 import io.github.hof2.enums.Communications;
