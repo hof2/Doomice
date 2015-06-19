@@ -37,7 +37,8 @@ public class PlayerAppState extends SimpleAppState {
     private Node rootNode;
     private PhysicsSpace physicsSpace;
     private PlayerTypes playerType;
-
+    private PlayerCollection players;
+    
     /**
      * Sets the {@code playerType} to either student or headmaster.
      *
@@ -50,8 +51,8 @@ public class PlayerAppState extends SimpleAppState {
 
     /**
      * Sets the {@code inputManager}, {@code rootNode} and {@code physicsSpace}.
-     * Calls {@code initNode}, {@code initCamera}, {@code initKeybindings}. Also
-     * detaches the {@link PlayerTypeAppState} from the Application
+     * Calls {@code initNode}, {@code initCamera}, {@code initKeybindings}.
+     * Also detaches the {@link PlayerTypeAppState} from the Application
      *
      * @see SimpleAppState
      * @see AbstractAppState
@@ -64,12 +65,13 @@ public class PlayerAppState extends SimpleAppState {
         inputManager = this.app.getInputManager();
         rootNode = this.app.getRootNode();
         physicsSpace = stateManager.getState(BulletAppState.class).getPhysicsSpace();
+        players = PlayerCollection.getInstance();
         initNode();
         initCamera();
         try {
             initKeybindings();
         } catch (Exception ex) {
-            System.out.println("Error: Failed to bind keys");
+            System.out.println("PlayerAppState : Failed to bind keys");
         }
         stateManager.detach(stateManager.getState(PlayerTypeAppState.class));
     }
@@ -85,6 +87,7 @@ public class PlayerAppState extends SimpleAppState {
     @Override
     public void cleanup() {
         super.cleanup();
+        players.removePlayer(playerControl.getPlayer());
         rootNode.detachChild(player);
         mappings.removeMappings(this, inputManager, Mappings.Left, Mappings.Right, Mappings.Forward, Mappings.Backward, Mappings.Jump);
         app.getFlyByCamera().setEnabled(true);
@@ -124,10 +127,13 @@ public class PlayerAppState extends SimpleAppState {
      * {@link StudentControl} based on the {@link PlayerTypes} to the node.
      */
     private void initNode() {
-        playerControl = new PlayerControl(app.getCamera(), playerType);
+        playerControl = new PlayerControl(app.getCamera());
         studentControl = new StudentControl();
         headmasterControl = new HeadmasterControl();
-        player = addNode(playerControl);
+        player = (Node) app.getAssetManager().loadModel("Models/" + playerType + "/" + playerType + ".j3o");
+        player.setMaterial(SimpleMaterials.getMaterial(Materials.Player));
+        player.rotateUpTo(new Vector3f(0, FastMath.PI / 2, 0));
+        player.addControl(playerControl);
         switch (playerType) {
             case Student:
                 player.addControl(studentControl);
@@ -136,30 +142,10 @@ public class PlayerAppState extends SimpleAppState {
                 player.addControl(headmasterControl);
                 break;
         }
-        playerControl.setLocal(true);
-        PlayerCollection.players.put(playerControl.getName(), playerControl);
-    }
-
-    /**
-     * Creates and attaches a {@link Node} and {@link PlayerControl} to the
-     * {@code rootNode} and {@code physicsSpace}.
-     *
-     * @param control the {@link PlayerControl} to be added.
-     * @return the created {@link Node}.
-     */
-    public Node addNode(PlayerControl control) {
-        Node node = (Node) app.getAssetManager().loadModel("Models/" + control.getType() + "/" + control.getType() + ".j3o");
-        node.setMaterial(SimpleMaterials.getMaterial(Materials.Player));
-        node.rotateUpTo(new Vector3f(0, FastMath.PI / 2, 0));
-        node.addControl(control);
-        physicsSpace = stateManager.getState(BulletAppState.class).getPhysicsSpace();
-        physicsSpace.addAll(node);
-        physicsSpace.add(control);
-        node.setName(control.getName());
-        control.setViewDirection(control.getViewDirection());
-        node.setLocalTranslation(control.getLocation());
-        app.getRootNode().attachChild(node);
-        return node;
+        physicsSpace.addAll(player);
+        physicsSpace.add(playerControl);
+        rootNode.attachChild(player);
+        players.addPlayer(playerControl.getPlayer());
     }
 
     /**
@@ -182,13 +168,5 @@ public class PlayerAppState extends SimpleAppState {
         } else {
             playerControl.jump(value);
         }
-    }
-
-    /**
-     * Gest the {@link PlayerControl}.
-     * @return the {@link PlayerControl}.
-     */
-    public PlayerControl getPlayerControl() {
-        return playerControl;
     }
 }
