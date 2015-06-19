@@ -50,6 +50,7 @@ public class GameAppState extends SimpleAppState {
     /**
      * Detaches all default {@link AppState AppStates} from the
      * {@code stateManager}.
+     *
      * @see SimpleAppState
      * @see AbstractAppState
      */
@@ -81,6 +82,7 @@ public class GameAppState extends SimpleAppState {
     private void initMaterials(Application app) {
         SimpleMaterials.putMaterial(Materials.Floor, new Material(app.getAssetManager(), "Common/MatDefs/Light/Lighting.j3md"));
         SimpleMaterials.putMaterial(Materials.Player, new Material(app.getAssetManager(), "Common/MatDefs/Light/Lighting.j3md"));
+        SimpleMaterials.putMaterial(Materials.School, new Material(app.getAssetManager(), "Common/MatDefs/Light/Lighting.j3md"));
     }
 
     private void initGuiPaths() {

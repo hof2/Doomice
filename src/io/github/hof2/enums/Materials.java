@@ -13,5 +13,9 @@ public enum Materials {
     /**
      * The material the player node consist of.
      */
-    Player
+    Player,
+    /**
+     * The material of the {@link SchoolAppState school} 
+     */
+    School
 }
