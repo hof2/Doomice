@@ -106,11 +106,12 @@ public class MultiplayerAppState extends SimpleAppState {
                     PlayerControl control = playerAppState.getPlayerControl();
                     client.send(new Player(control.getLocation().clone(), control.getType(), control.getViewDirection().clone(), control.getName()));
                     ArrayList<Player> response = (ArrayList<Player>) client.performRequest(Communications.UPDATE);
-                    String id = control.getName();
                     for (Player player : response) {
-                        if (!players.containsKey(player.getId())) {
+                        String id = player.getId();
+                        if (!players.containsKey(id)) {
+                            System.out.println(player.getId() + " _ " + players.keySet());
                             players.put(id, createPlayer(player));
-                        } else if (!players.get(player.getId()).isLocal()) {
+                        } else if (!players.get(id).isLocal()) {
                             control = players.get(id);
                             control.warp(player.getPosition());
                             control.setViewDirection(player.getViewDirection());
