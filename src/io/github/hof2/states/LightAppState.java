@@ -33,7 +33,7 @@ public class LightAppState extends SimpleAppState {
         super.initialize(stateManager, app);
         rootNode = this.app.getRootNode();
 
-        //initAmbient();
+        initAmbient();
         initDirectional();
         initShadow();
     }
@@ -42,7 +42,7 @@ public class LightAppState extends SimpleAppState {
      * Adds an {@link AmbientLight} to the scene.
      */
     private void initAmbient() {
-        ambient.setColor(ColorRGBA.White);
+        ambient.setColor(SimpleColors.CONCRETE);
         rootNode.addLight(ambient);
     }
 

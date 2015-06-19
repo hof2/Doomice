@@ -1,6 +1,5 @@
 package io.github.hof2.states;
 
-import io.github.hof2.enums.PlayerTypes;
 import com.jme3.app.Application;
 import com.jme3.app.state.AbstractAppState;
 import com.jme3.app.state.AppStateManager;
@@ -24,6 +23,7 @@ public class GameAppState extends SimpleAppState {
     private TerrainAppState terrain = new TerrainAppState();
     private LightAppState lighting = new LightAppState();
     private PlayerTypeAppState player = new PlayerTypeAppState();
+    private MultiplayerAppState multi = new MultiplayerAppState();
     /* Global Parameters */
     /**
      * Defines the gravity for all in-game objects.
@@ -50,6 +50,7 @@ public class GameAppState extends SimpleAppState {
     /**
      * Detaches all default {@link AppState AppStates} from the
      * {@code stateManager}.
+     *
      * @see SimpleAppState
      * @see AbstractAppState
      */
@@ -60,6 +61,7 @@ public class GameAppState extends SimpleAppState {
         stateManager.detach(lighting);
         stateManager.detach(player);
         stateManager.detach(physics);
+        stateManager.detach(multi);
     }
 
     /**
@@ -71,6 +73,7 @@ public class GameAppState extends SimpleAppState {
         stateManager.attach(terrain);
         stateManager.attach(lighting);
         stateManager.attach(player);
+        stateManager.attach(multi);
     }
 
     /**

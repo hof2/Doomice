@@ -3,31 +3,41 @@ package io.github.hof2.controls;
 import com.jme3.bullet.control.BetterCharacterControl;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
-import com.jme3.scene.control.AbstractControl;
 import io.github.hof2.collection.Player;
 import io.github.hof2.states.GameAppState;
 import io.github.hof2.enums.Mappings;
 import io.github.hof2.enums.PlayerTypes;
 import io.github.hof2.states.simple.SimpleQuaternions;
+import java.io.Serializable;
+import java.math.BigInteger;
+import java.security.SecureRandom;
 import java.util.HashMap;
 
 /**
  * This is where the player is controlled. The player moves based on its
  * {@code direction}.
  */
-public class PlayerControl extends BetterCharacterControl {
+public class PlayerControl extends BetterCharacterControl implements Serializable {
 
     private Camera cam;
     private static final float RADIUS = 1;
     private static final float HEIGHT = 3;
-    private static final float MASS = 3;
+    private static final float MASS = 100;
     private static final float GROUND_SPEED = 50;
     private static final float AIR_SPEED = 30;
-    private static final float JUMP_FORCE = 1000;
+    private static final float JUMP_FORCE = 40000;
     private boolean doJump;
+    private boolean multiplayer;
+    private Vector3f nextView;
+    private String name;
+    private PlayerTypes type;
+    private boolean local;
     private HashMap<Mappings, Float> directions = new HashMap<>();
-    private Player player;
 
+    {
+        name = new BigInteger(130, new SecureRandom()).toString(32);
+    }
+    
     /**
      * Creates a new character with the given {@link Camera} to continously set
      * the {@code viewDirection}. {@code RADIUS}, {@code HEIGHT} and
@@ -36,10 +46,19 @@ public class PlayerControl extends BetterCharacterControl {
      *
      * @param cam used to update the {@code viewDirection}
      */
-    public PlayerControl(Camera cam) {
+    public PlayerControl(Camera cam, PlayerTypes type) {
         super(RADIUS, HEIGHT, MASS);
         this.cam = cam;
         setGravity(GameAppState.GRAVITY);
+        this.type = type;
+    }
+
+    public PlayerControl(Vector3f nextView, PlayerTypes type) {
+        super(RADIUS, HEIGHT, MASS);
+        setGravity(GameAppState.GRAVITY);
+        multiplayer = true;
+        this.nextView = nextView;
+        this.type = type;
     }
 
     /**
@@ -59,7 +78,7 @@ public class PlayerControl extends BetterCharacterControl {
             doJump = false;
         }
 
-        Vector3f newViewDirection = cam.getDirection().setY(0);
+        Vector3f newViewDirection = multiplayer ? nextView : cam.getDirection().setY(0);
         Vector3f newWalkDirection = newViewDirection.clone();
 
         if (!directions.isEmpty()) {
@@ -95,8 +114,6 @@ public class PlayerControl extends BetterCharacterControl {
         setWalkDirection(viewDirection.interpolate(newWalkDirection, tpf));
 
         directions.clear();
-
-//        player.setPosition(getSpatialTranslation());
     }
 
     /**
@@ -132,24 +149,27 @@ public class PlayerControl extends BetterCharacterControl {
         doJump = true;
     }
 
-    /**
-     * Adds a {@link AbstractControl Control} to the {@link PlayerControl}.
-     *
-     * @param control The {@link AbstractControl Control}.
-     */
-    public void addControl(AbstractControl control) {
-        if (control instanceof HeadmasterControl) {
-            player.setType(PlayerTypes.Headmaster);
-        } else if (control instanceof StudentControl) {
-            player.setType(PlayerTypes.Student);
-        }
+    public String getName() {
+        return name;
     }
 
-    /**
-     * Gets the {@link Player} data object for multiplayer.
-     * @return The {@link Player}.
-     */
-    public Player getPlayer() {
-        return player;
+    public PlayerTypes getType() {
+        return type;
     }
+
+    public Vector3f getLocation() {
+        return location;
+    }
+
+    
+    
+    public boolean isLocal() {
+        return local;
+    }
+
+    public void setLocal(boolean local) {
+        this.local = local;
+    }
+    
+    
 }
