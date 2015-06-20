@@ -3,7 +3,7 @@ package io.github.hof2.controls;
 import com.jme3.bullet.control.BetterCharacterControl;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
-import io.github.hof2.collection.Player;
+import com.jme3.scene.Spatial;
 import io.github.hof2.states.GameAppState;
 import io.github.hof2.enums.Mappings;
 import io.github.hof2.enums.PlayerTypes;
@@ -161,7 +161,9 @@ public class PlayerControl extends BetterCharacterControl implements Serializabl
         return location;
     }
 
-    
+    public Spatial getSpatial() {
+        return spatial;
+    }
     
     public boolean isLocal() {
         return local;

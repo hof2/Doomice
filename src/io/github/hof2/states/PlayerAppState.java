@@ -11,7 +11,9 @@ import com.jme3.input.InputManager;
 import com.jme3.input.KeyInput;
 import com.jme3.math.FastMath;
 import com.jme3.math.Vector3f;
+import com.jme3.renderer.queue.RenderQueue;
 import com.jme3.scene.Node;
+import io.github.hof2.collection.Player;
 import io.github.hof2.collection.PlayerCollection;
 import io.github.hof2.controls.HeadmasterControl;
 import io.github.hof2.controls.PlayerControl;
@@ -37,6 +39,8 @@ public class PlayerAppState extends SimpleAppState {
     private Node rootNode;
     private PhysicsSpace physicsSpace;
     private PlayerTypes playerType;
+    private ChaseCamera cam;
+    private float time;
 
     /**
      * Sets the {@code playerType} to either student or headmaster.
@@ -109,7 +113,7 @@ public class PlayerAppState extends SimpleAppState {
      */
     private void initCamera() {
         this.app.getFlyByCamera().setEnabled(false);
-        ChaseCamera cam = new ChaseCamera(app.getCamera(), player, inputManager);
+        cam = new ChaseCamera(app.getCamera(), player, inputManager);
         cam.setDragToRotate(false);
         cam.setTrailingEnabled(false);
         cam.setLookAtOffset(new Vector3f(0, 2.5f, 0));
@@ -157,6 +161,7 @@ public class PlayerAppState extends SimpleAppState {
         node.setName(control.getName());
         control.setViewDirection(control.getViewDirection());
         node.setLocalTranslation(control.getLocation());
+        node.setShadowMode(RenderQueue.ShadowMode.CastAndReceive);
         app.getRootNode().attachChild(node);
         return node;
     }
@@ -185,9 +190,35 @@ public class PlayerAppState extends SimpleAppState {
 
     /**
      * Gest the {@link PlayerControl}.
+     *
      * @return the {@link PlayerControl}.
      */
     public PlayerControl getPlayerControl() {
         return playerControl;
+    }
+
+    /**
+     * Disables the player shadow in ego mode, enables it elsewise - in a 500ms
+     * interval.
+     *
+     * @param tpf the time per frame value.
+     */
+    @Override
+    public void update(float tpf) {
+        super.update(tpf);
+        time += tpf;
+        if (time >= 0.5f) {
+            if (cam.getDistanceToTarget() <= 2f) {
+                time = 0;
+                for (PlayerControl control : PlayerCollection.players.values()) {
+                    control.getSpatial().setShadowMode(RenderQueue.ShadowMode.Off);
+                }
+            } else if (cam.getDistanceToTarget() > 2f) {
+                time = 0;
+                for (PlayerControl control : PlayerCollection.players.values()) {
+                    control.getSpatial().setShadowMode(RenderQueue.ShadowMode.CastAndReceive);
+                }
+            }
+        }
     }
 }

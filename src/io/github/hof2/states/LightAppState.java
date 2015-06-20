@@ -4,10 +4,13 @@ import com.jme3.app.Application;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.light.AmbientLight;
 import com.jme3.light.DirectionalLight;
-import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
+import com.jme3.post.FilterPostProcessor;
+import com.jme3.post.filters.BloomFilter;
+import com.jme3.post.filters.CartoonEdgeFilter;
+import com.jme3.post.ssao.SSAOFilter;
 import com.jme3.scene.Node;
-import com.jme3.shadow.DirectionalLightShadowRenderer;
+import com.jme3.shadow.DirectionalLightShadowFilter;
 import io.github.hof2.states.simple.SimpleAppState;
 import io.github.hof2.states.simple.SimpleColors;
 
@@ -19,6 +22,9 @@ public class LightAppState extends SimpleAppState {
     private AmbientLight ambient = new AmbientLight();
     private DirectionalLight directional = new DirectionalLight();
     private Node rootNode;
+    private static final int SHADOWMAP_SIZE = 4048;
+    private static final int SHADOWMAP_NUMBER = 4;
+    private FilterPostProcessor fpp;
 
     /**
      * Calls {@code initAmbient} and {@code initDirectional}.
@@ -50,25 +56,31 @@ public class LightAppState extends SimpleAppState {
      * Adds a {@link DirectionalLight} to the scene.
      */
     private void initDirectional() {
-        directional.setDirection(new Vector3f(0, -1f, 0));
+        directional.setDirection(new Vector3f(-.5f,-.5f,-.5f).normalizeLocal());
         directional.setColor(SimpleColors.FLINT);
         rootNode.addLight(directional);
     }
 
     /**
-     *
+     * Creates shadows, ambient occlusion and the cartoon edges.
      */
     private void initShadow() {
-        /* this shadow needs a directional light */
-        DirectionalLightShadowRenderer dlsr = new DirectionalLightShadowRenderer(app.getAssetManager(), 1024, 2);
-        dlsr.setLight(directional);
-        dlsr.displayFrustum();
-        dlsr.displayDebug();
-        app.getViewPort().addProcessor(dlsr);
+        DirectionalLightShadowFilter dlsf = new DirectionalLightShadowFilter(app.getAssetManager(), SHADOWMAP_SIZE, SHADOWMAP_NUMBER);
+        dlsf.setLight(directional);
+        dlsf.setEnabled(true);
+        fpp = new FilterPostProcessor(app.getAssetManager());
+        SSAOFilter ssaoFilter = new SSAOFilter();
+        BloomFilter bloomFilter = new BloomFilter();
+        CartoonEdgeFilter cartoonEdgeFilter = new CartoonEdgeFilter();
+        fpp.addFilter(dlsf);
+        fpp.addFilter(ssaoFilter);
+        fpp.addFilter(bloomFilter);
+        fpp.addFilter(cartoonEdgeFilter);
+        app.getViewPort().addProcessor(fpp);
     }
 
     /**
-     * Removes the lights from the scene.
+     * Removes the lights and shadows from the scene.
      *
      * @see SimpleAppState
      * @see AbstractAppState
@@ -78,5 +90,6 @@ public class LightAppState extends SimpleAppState {
         super.cleanup();
         rootNode.removeLight(ambient);
         rootNode.removeLight(directional);
+        app.getViewPort().removeProcessor(fpp);
     }
 }
