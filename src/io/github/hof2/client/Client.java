@@ -52,7 +52,6 @@ public abstract class Client {
         if (thread != null && thread.isAlive()) {
             send(Communications.STOP);
             close();
-            closed = true;
         }
     }
 
@@ -60,6 +59,7 @@ public abstract class Client {
         onClose();
         thread.interrupt();
         socket.close();
+        closed = true;
     }
 
     public final ObjectOutputStream getOutputStream() {

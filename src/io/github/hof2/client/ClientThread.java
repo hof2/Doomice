@@ -19,9 +19,8 @@ public class ClientThread extends Thread {
 
     @Override
     public void run() {
-
         try {
-            while (!interrupted()) {
+            while (!isInterrupted()) {
                 Object message = inputStream.readObject();
                 if (message.equals(Communications.STOP)) {
                     client.close();

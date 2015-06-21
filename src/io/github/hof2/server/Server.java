@@ -38,6 +38,7 @@ abstract public class Server {
                 session.interrupt();
             }
             thread.interrupt();
+            socket.close();
         }
     }
 

@@ -80,7 +80,9 @@ public class MultiplayerAppState extends SimpleAppState implements ScreenControl
     }
 
     /**
-     * Gets the current text from any currently existing nifty element based on its id.
+     * Gets the current text from any currently existing nifty element based on
+     * its id.
+     *
      * @param id the id of th element.
      * @return the text of the element.
      */
@@ -118,15 +120,17 @@ public class MultiplayerAppState extends SimpleAppState implements ScreenControl
     @Override
     public void cleanup() {
         super.cleanup();
-        players.clear();
         try {
-            client.stop();
             if (server != null) {
                 server.stop();
             }
+            client.close();
+            players.clear();
         } catch (IOException ex) {
             System.out.println("Error: " + ex);
+            ex.printStackTrace();
         } catch (NullPointerException ex) {
+            System.out.println("Error: " + ex);
             //this happens when the user exists before connecting to a server
         }
     }
