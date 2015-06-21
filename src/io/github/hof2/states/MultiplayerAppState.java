@@ -39,6 +39,7 @@ public class MultiplayerAppState extends SimpleAppState implements ScreenControl
     private static final boolean ENABLE_HORDE = false;
     private NiftyJmeDisplay display;
     private ArrayList<Player> response = new ArrayList<>();
+    private boolean newResponse;
     /**
      * The port used for all communications
      */
@@ -168,20 +169,24 @@ public class MultiplayerAppState extends SimpleAppState implements ScreenControl
                         public void run() {
                             try {
                                 response = (ArrayList<Player>) client.performRequest(Communications.UPDATE);
+                                newResponse = true;
                             } catch (IOException | ClassNotFoundException | InterruptedException ex) {
                                 System.out.println("Error: " + ex);
                             }
                         }
                     }.start();
-                    for (Player player : response) {
-                        String id = ENABLE_HORDE ? control.getName() : player.getId();
-                        if (!players.containsKey(id)) {
-                            players.put(id, createPlayer(player));
-                        } else if (!players.get(id).isLocal()) {
-                            control = players.get(id);
-                            control.warp(player.getPosition());
-                            control.setViewDirection(player.getViewDirection());
+                    if (newResponse) {
+                        for (Player player : response) {
+                            String id = ENABLE_HORDE ? control.getName() : player.getId();
+                            if (!players.containsKey(id)) {
+                                players.put(id, createPlayer(player));
+                            } else if (!players.get(id).isLocal()) {
+                                control = players.get(id);
+                                control.warp(player.getPosition());
+                                control.setViewDirection(player.getViewDirection());
+                            }
                         }
+                        newResponse = false;
                     }
                 } else {
                     playerAppState = stateManager.getState(PlayerAppState.class);
