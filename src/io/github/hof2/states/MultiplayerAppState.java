@@ -6,7 +6,6 @@ import com.jme3.niftygui.NiftyJmeDisplay;
 import com.jme3.scene.Node;
 import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.controls.TextField;
-import de.lessvoid.nifty.elements.render.TextRenderer;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
 import io.github.hof2.client.PlayerClient;
@@ -128,9 +127,7 @@ public class MultiplayerAppState extends SimpleAppState implements ScreenControl
             players.clear();
         } catch (IOException ex) {
             System.out.println("Error: " + ex);
-            ex.printStackTrace();
         } catch (NullPointerException ex) {
-            System.out.println("Error: " + ex);
             //this happens when the user exists before connecting to a server
         }
     }
@@ -185,23 +182,20 @@ public class MultiplayerAppState extends SimpleAppState implements ScreenControl
 
     /**
      * nothing happens here
-     *
-     * @param nifty
-     * @param screen
      */
     @Override
     public void bind(Nifty nifty, Screen screen) {
     }
 
     /**
-     * Nothing happens
+     * nothing happens here
      */
     @Override
     public void onStartScreen() {
     }
 
     /**
-     * Nothing happens
+     * nothing happens here
      */
     @Override
     public void onEndScreen() {

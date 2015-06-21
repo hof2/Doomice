@@ -33,7 +33,7 @@ public class PlayerTypeAppState extends SimpleAppState implements ScreenControll
     private NiftyJmeDisplay display;
 
     /**
-     * Initializes the display. Connects {@link NiftyJmeDisplay} to the 
+     * Initializes the display. Connects {@link NiftyJmeDisplay} to the
      * {@code app.guiViewPort} Gets the layouts xml from {@link SimpleGui} over
      * the {@link Gui}-Enum Displays the Menu Sets the Camera to fixed (drag to
      * rotate)
@@ -61,30 +61,6 @@ public class PlayerTypeAppState extends SimpleAppState implements ScreenControll
     @Override
     public void cleanup() {
         super.cleanup();
-    }
-
-    /**
-     * nothing happens here
-     *
-     * @param nifty
-     * @param screen
-     */
-    @Override
-    public void bind(Nifty nifty, Screen screen) {
-    }
-
-    /**
-     * Nothing happens
-     */
-    @Override
-    public void onStartScreen() {
-    }
-
-    /**
-     * Nothing happens
-     */
-    @Override
-    public void onEndScreen() {
     }
 
     /**
@@ -119,20 +95,43 @@ public class PlayerTypeAppState extends SimpleAppState implements ScreenControll
     public String getHeadmaster() {
         return "Headmaster";
     }
-    
+
     /**
      * Gets the generated {@link PlayerAppState}.
+     *
      * @return the {@link PlayerAppState}.
      */
     public PlayerAppState getPlayerAppState() {
         return player;
     }
-    
+
     /**
      * Gets the global {@link NiftyJmeDisplay} instance.
+     *
      * @return the {@link NiftyJmeDisplay}.
      */
     public NiftyJmeDisplay getDisplay() {
         return display;
+    }
+
+    /**
+     * nothing happens here
+     */
+    @Override
+    public void bind(Nifty nifty, Screen screen) {
+    }
+
+    /**
+     * nothing happens here
+     */
+    @Override
+    public void onStartScreen() {
+    }
+
+    /**
+     * nothing happens here
+     */
+    @Override
+    public void onEndScreen() {
     }
 }
