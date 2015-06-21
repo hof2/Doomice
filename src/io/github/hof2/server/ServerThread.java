@@ -5,15 +5,29 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+/**
+ * A {@link Thread} used by the {@link Server} to communicate with
+ * {@link Client Clients}. For every new {@link Client}, a new
+ * {@link SessionThread} is started.
+ */
 public class ServerThread extends Thread {
 
     private final Server server;
     private final CopyOnWriteArrayList<SessionThread> sessions = new CopyOnWriteArrayList<>();
 
+    /**
+     * Sets the {@link Server} parent.
+     *
+     * @param server The {@link Server}.
+     */
     public ServerThread(Server server) {
         this.server = server;
     }
 
+    /**
+     * The main loop. For every new {@link Client}, a new {@link SessionThread}
+     * is created.
+     */
     @Override
     public void run() {
         while (!isInterrupted()) {
@@ -38,8 +52,13 @@ public class ServerThread extends Thread {
         }
     }
 
+    /**
+     * Gets all {@link Session Sessions} which are currently open.
+     *
+     * @return the {@link CopyOnWriteArrayList List} filled with active
+     * {@link Session Sessions}.
+     */
     public CopyOnWriteArrayList<SessionThread> getSessions() {
         return sessions;
     }
-
 }
