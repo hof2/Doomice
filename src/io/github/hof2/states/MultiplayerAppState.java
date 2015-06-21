@@ -22,6 +22,8 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Handles multiplayer functinality: Starts a {@link PlayerClient Client} and
@@ -36,6 +38,7 @@ public class MultiplayerAppState extends SimpleAppState implements ScreenControl
     private PlayerAppState playerAppState;
     private static final boolean ENABLE_HORDE = false;
     private NiftyJmeDisplay display;
+    private ArrayList<Player> response = new ArrayList<>();
     /**
      * The port used for all communications
      */
@@ -155,12 +158,21 @@ public class MultiplayerAppState extends SimpleAppState implements ScreenControl
     @Override
     public void update(float tpf) {
         try {
-            if ((time += tpf) >= 0.5) {
+            if ((time += tpf) >= 0.25) {
                 time = 0;
                 if (playerAppState != null && client != null && !client.isClosed()) {
                     PlayerControl control = playerAppState.getPlayerControl();
                     client.send(new Player(control.getLocation().clone(), control.getType(), control.getViewDirection().clone(), control.getName()));
-                    ArrayList<Player> response = (ArrayList<Player>) client.performRequest(Communications.UPDATE);
+                    new Thread() {
+                        @Override
+                        public void run() {
+                            try {
+                                response = (ArrayList<Player>) client.performRequest(Communications.UPDATE);
+                            } catch (IOException | ClassNotFoundException | InterruptedException ex) {
+                                System.out.println("Error: " + ex);
+                            }
+                        }
+                    }.start();
                     for (Player player : response) {
                         String id = ENABLE_HORDE ? control.getName() : player.getId();
                         if (!players.containsKey(id)) {
@@ -175,7 +187,7 @@ public class MultiplayerAppState extends SimpleAppState implements ScreenControl
                     playerAppState = stateManager.getState(PlayerAppState.class);
                 }
             }
-        } catch (IOException | ClassNotFoundException | InterruptedException ex) {
+        } catch (IOException ex) {
             System.out.println("Error: " + ex);
         }
     }
