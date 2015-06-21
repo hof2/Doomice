@@ -29,6 +29,7 @@ public class PlayerControl extends BetterCharacterControl implements Serializabl
     private boolean doJump;
     private boolean multiplayer;
     private Vector3f nextView;
+    private Vector3f nextWalk;
     private String name;
     private PlayerTypes type;
     private boolean local;
@@ -37,7 +38,7 @@ public class PlayerControl extends BetterCharacterControl implements Serializabl
     {
         name = new BigInteger(130, new SecureRandom()).toString(32);
     }
-    
+
     /**
      * Creates a new character with the given {@link Camera} to continously set
      * the {@code viewDirection}. {@code RADIUS}, {@code HEIGHT} and
@@ -53,11 +54,22 @@ public class PlayerControl extends BetterCharacterControl implements Serializabl
         this.type = type;
     }
 
-    public PlayerControl(Vector3f nextView, PlayerTypes type) {
+    /**
+     * Creates a new character with the next {@code viewDirection} and
+     * {@code walkDirection}. {@code RADIUS}, {@code HEIGHT} and {@code MASS}
+     * are set based on static variables. The gravity is set to static variable
+     * {@code GRAVITY} in {@link GameAppState}.
+     *
+     * @param nextView the next {@code viewDirection}
+     * @param nextWalk the next {@code walkDirection}
+     * @param type the {@link PlayerTypes PlayerType}
+     */
+    public PlayerControl(Vector3f nextView, Vector3f nextWalk, PlayerTypes type) {
         super(RADIUS, HEIGHT, MASS);
         setGravity(GameAppState.GRAVITY);
         multiplayer = true;
         this.nextView = nextView;
+        this.nextWalk = nextWalk;
         this.type = type;
     }
 
@@ -79,7 +91,7 @@ public class PlayerControl extends BetterCharacterControl implements Serializabl
         }
 
         Vector3f newViewDirection = multiplayer ? nextView : cam.getDirection().setY(0);
-        Vector3f newWalkDirection = newViewDirection.clone();
+        Vector3f newWalkDirection = multiplayer ? nextWalk : newViewDirection.clone();
 
         if (!directions.isEmpty()) {
             Vector3f commonDirection = new Vector3f(0, 0, 0);
@@ -164,7 +176,7 @@ public class PlayerControl extends BetterCharacterControl implements Serializabl
     public Spatial getSpatial() {
         return spatial;
     }
-    
+
     public boolean isLocal() {
         return local;
     }
@@ -172,6 +184,4 @@ public class PlayerControl extends BetterCharacterControl implements Serializabl
     public void setLocal(boolean local) {
         this.local = local;
     }
-    
-    
 }

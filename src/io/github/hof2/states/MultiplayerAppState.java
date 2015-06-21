@@ -145,7 +145,7 @@ public class MultiplayerAppState extends SimpleAppState implements ScreenControl
      * @return the created {@link PlayerControl}.
      */
     private PlayerControl createPlayer(Player player) {
-        PlayerControl control = new PlayerControl(player.getViewDirection(), player.getType());
+        PlayerControl control = new PlayerControl(player.getViewDirection(), player.getWalkDirection(), player.getType());
         playerAppState.addNode(control);
         return control;
     }
@@ -163,7 +163,7 @@ public class MultiplayerAppState extends SimpleAppState implements ScreenControl
                 time = 0;
                 if (playerAppState != null && client != null && !client.isClosed()) {
                     PlayerControl control = playerAppState.getPlayerControl();
-                    client.send(new Player(control.getLocation().clone(), control.getType(), control.getViewDirection().clone(), control.getName()));
+                    client.send(new Player(control.getLocation().clone(), control.getViewDirection().clone(), control.getWalkDirection().clone(), control.getType(), control.getName()));
                     new Thread() {
                         @Override
                         public void run() {
@@ -184,6 +184,7 @@ public class MultiplayerAppState extends SimpleAppState implements ScreenControl
                                 control = players.get(id);
                                 control.warp(player.getPosition());
                                 control.setViewDirection(player.getViewDirection());
+                                control.setWalkDirection(player.getWalkDirection());
                             }
                         }
                         newResponse = false;
