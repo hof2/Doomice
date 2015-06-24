@@ -155,14 +155,39 @@ public class PlayerAppState extends SimpleAppState {
         node.setMaterial(SimpleMaterials.getMaterial(Materials.Player));
         node.rotateUpTo(new Vector3f(0, FastMath.PI / 2, 0));
         node.addControl(control);
-        physicsSpace = stateManager.getState(BulletAppState.class).getPhysicsSpace();
-        physicsSpace.addAll(node);
-        physicsSpace.add(control);
         node.setName(control.getName());
         control.setViewDirection(control.getViewDirection());
         node.setLocalTranslation(control.getLocation());
         node.setShadowMode(RenderQueue.ShadowMode.CastAndReceive);
         app.getRootNode().attachChild(node);
+        physicsSpace = stateManager.getState(BulletAppState.class).getPhysicsSpace();
+        physicsSpace.addAll(node);
+        physicsSpace.add(control);
+        return node;
+    }
+
+    /**
+     * Creates and attaches a {@link Node} and {@link PlayerControl} to the
+     * {@code rootNode}.
+     *
+     * @param control the {@link PlayerControl} to be added.
+     * @return the created {@link Node}.
+     */
+    public Node addNode(PlayerControl control, boolean attachToPhysics) {
+        Node node = (Node) app.getAssetManager().loadModel("Models/" + control.getType() + "/" + control.getType() + ".j3o");
+        node.setMaterial(SimpleMaterials.getMaterial(Materials.Player));
+        node.rotateUpTo(new Vector3f(0, FastMath.PI / 2, 0));
+        node.addControl(control);
+        node.setName(control.getName());
+        control.setViewDirection(control.getViewDirection());
+        node.setLocalTranslation(control.getLocation());
+        node.setShadowMode(RenderQueue.ShadowMode.CastAndReceive);
+        app.getRootNode().attachChild(node);
+        if (attachToPhysics) {
+            physicsSpace = stateManager.getState(BulletAppState.class).getPhysicsSpace();
+            physicsSpace.addAll(node);
+            physicsSpace.add(control);
+        }
         return node;
     }
 
