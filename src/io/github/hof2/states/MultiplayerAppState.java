@@ -22,8 +22,6 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Handles multiplayer functinality: Starts a {@link PlayerClient Client} and
@@ -151,6 +149,15 @@ public class MultiplayerAppState extends SimpleAppState implements ScreenControl
     }
 
     /**
+     * Sets the response {@link ArrayList}.
+     *
+     * @param response the {@link ArrayList}
+     */
+    private synchronized void setResponse(ArrayList<Player> response) {
+        this.response = response;
+    }
+
+    /**
      * Sends the own player, and updates the game based on the list of players
      * received.
      *
@@ -168,7 +175,7 @@ public class MultiplayerAppState extends SimpleAppState implements ScreenControl
                         @Override
                         public void run() {
                             try {
-                                response = (ArrayList<Player>) client.performRequest(Communications.UPDATE);
+                                setResponse((ArrayList<Player>) client.performRequest(Communications.UPDATE));
                                 newResponse = true;
                             } catch (IOException | ClassNotFoundException | InterruptedException ex) {
                                 System.out.println("Error: " + ex);
