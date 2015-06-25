@@ -49,9 +49,11 @@ public class SessionThread extends Thread {
                     interrupt();
                     server.closeSession(this);
                 } else {
-                    Serializable response = server.performResponse((Serializable) message, this);
-                    if (!response.equals(Communications.DONT_ANSWER)) {
-                        send(response);
+                    synchronized (server) {
+                        Serializable response = server.performResponse((Serializable) message, this);
+                        if (!response.equals(Communications.DONT_ANSWER)) {
+                            send(response);
+                        }
                     }
                 }
             }
