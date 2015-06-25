@@ -17,6 +17,8 @@ import io.github.hof2.states.simple.SimpleAppState;
 import io.github.hof2.states.simple.SimpleMaterials;
 
 /**
+ * @author Matthias Hofreiter
+ * @since April 23, 2015
  * Handles and generates the in-game terrain.
  */
 public class TerrainAppState extends SimpleAppState {

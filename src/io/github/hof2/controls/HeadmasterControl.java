@@ -5,6 +5,8 @@ import com.jme3.renderer.ViewPort;
 import com.jme3.scene.control.AbstractControl;
 
 /**
+ * @author Matthias Hofreiter
+ * @since May 6, 2015
  * Control of the headmaster. Not implemented yet.
  */
 public class HeadmasterControl extends AbstractControl {

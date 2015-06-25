@@ -17,6 +17,8 @@ import io.github.hof2.states.simple.SimpleAppState;
 import io.github.hof2.states.simple.SimpleGui;
 
 /**
+ * @author Matthias Hofreiter
+ * @since April 13, 2015
  * This {@link AppState} displays a {@link NiftyJmeDisplay} with a selection to
  * choose the Playertype (as seen in {@link PlayerTypes}. When Selected it
  * delegates to the {@link PlayerAppState} The corresponding NiftyGui XML-File

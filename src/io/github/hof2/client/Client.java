@@ -8,6 +8,8 @@ import java.io.Serializable;
 import java.net.Socket;
 
 /**
+ * @author Christoph Minixhofer
+ * @since May 22,2015
  * An abstract client that can connect to a {@link Server} running on a specific
  * {@link Socket}. Information is transmitted as {@link Serializable} or
  * {@link Communications Communication}.

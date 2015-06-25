@@ -14,6 +14,8 @@ import java.security.SecureRandom;
 import java.util.HashMap;
 
 /**
+ * @author Christoph Minixhofer
+ * @since May 10, 2015
  * This is where the player is controlled. The player moves based on its
  * {@code direction}.
  */

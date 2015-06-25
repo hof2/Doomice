@@ -5,6 +5,8 @@ import com.jme3.material.Material;
 import java.util.HashMap;
 
 /**
+ * @author Christoph Minixhofer
+ * @since May 10, 2015
  * A collection for storing and retrieving {@link Material Materials}.
  */
 public class SimpleMaterials {

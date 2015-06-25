@@ -5,6 +5,8 @@ import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 
 /**
+ * @author Christoph Minixhofer
+ * @since May 10, 2015
  * Provides some static variables, each of them a {@link Quaternion}, which help altering vectors.
  */
 public class SimpleQuaternions {

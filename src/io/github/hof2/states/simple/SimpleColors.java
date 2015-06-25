@@ -8,6 +8,8 @@ import com.jme3.math.ColorRGBA;
 
 
 /**
+ * @author Christoph Minixhofer
+ * @since May 10, 2015
  * A collection of all colors in-game. See the full palette on http://www.colourlovers.com/palette/1309732/Freshhh.
  */
 public class SimpleColors {

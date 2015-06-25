@@ -6,6 +6,8 @@ import java.net.SocketException;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
+ * @author Christoph Minixhofer
+ * @since May 22, 2015
  * A {@link Thread} used by the {@link Server} to communicate with
  * {@link Client Clients}. For every new {@link Client}, a new
  * {@link SessionThread} is started.

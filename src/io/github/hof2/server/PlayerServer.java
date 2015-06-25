@@ -6,7 +6,9 @@ import io.github.hof2.enums.Communications;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-/**
+/** 
+ * @author Christoph Minixhofer
+ * @since June 15, 2015
  * Implementation of the {@link Client}. Logs {@link Exception Exceptions} to
  * the console. Handles the distribution of all multiplayer data.
  */

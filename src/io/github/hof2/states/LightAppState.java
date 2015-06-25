@@ -15,6 +15,8 @@ import io.github.hof2.states.simple.SimpleAppState;
 import io.github.hof2.states.simple.SimpleColors;
 
 /**
+ * @author Matthias Hofreiter
+ * @since April 29, 2015
  * Handles the lights in-game.
  */
 public class LightAppState extends SimpleAppState {

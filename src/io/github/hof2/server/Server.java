@@ -7,6 +7,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 /**
+ * @author Christoph Minixhofer
+ * @since May 22, 2015
  * An abstract server that can connect to multiple {@link Client Clients}
  * running on specific {@link Socket Sockets}. Information is transmitted as
  * {@link Serializable} or {@link Communications Communication}.

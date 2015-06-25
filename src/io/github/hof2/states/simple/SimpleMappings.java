@@ -11,6 +11,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 /**
+ * @author Christoph Minixhofer
+ * @since May 10, 2015
  * A helper class which effectively replaces Strings with
  * {@link Mapping Mapppings} for {@link InputManager} mappings.
  *

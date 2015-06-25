@@ -9,6 +9,8 @@ import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.AnalogListener;
 
 /**
+ * @author Christoph Minixhofer
+ * @since May 10, 2015
  * A simple implementation of {@link AbstractAppState} which assumes a
  * {@link SimpleApplication} is used.
  */

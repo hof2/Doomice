@@ -6,6 +6,8 @@ import java.io.ObjectInputStream;
 import java.net.SocketException;
 
 /**
+ * @author Christoph Minixhofer
+ * @since May 22, 2015
  * A {@link Thread} used by {@link Client} to communicate with the
  * {@link Server}. Requested objects can be retrieved with
  * {@code getRequestedObject}, while unrequested object will lead to a call of

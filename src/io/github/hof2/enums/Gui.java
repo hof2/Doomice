@@ -4,6 +4,8 @@ import io.github.hof2.controls.HeadmasterControl;
 import io.github.hof2.controls.StudentControl;
 
 /**
+ * @author Matthias Hofreiter
+ * @since May 22, 2015
  * Defines all {@link Gui Guis} for {@link SimpleGui}.
  */
 public enum Gui {

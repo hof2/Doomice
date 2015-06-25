@@ -13,7 +13,9 @@ import io.github.hof2.enums.Materials;
 import io.github.hof2.states.simple.SimpleMaterials;
 
 /**
- *
+ * @author Matthias Hofreiter
+ * @since June 19, 2015
+ * Imports the School Model and places it in the world
  */
 public class SchoolAppState extends SimpleAppState{
     

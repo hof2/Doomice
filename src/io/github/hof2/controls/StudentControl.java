@@ -5,6 +5,8 @@ import com.jme3.renderer.ViewPort;
 import com.jme3.scene.control.AbstractControl;
 
 /**
+ * @author Christoph Minixhofer
+ * @since May 10, 2015
  * Controls the student. Not implemented yet.
  */
 public class StudentControl extends AbstractControl {

@@ -7,6 +7,8 @@ import java.io.Serializable;
 import java.util.Objects;
 
 /**
+ * @author Christoph Minixhofer
+ * @since June 21,2015
  * Data class which is used for sending {@link MultiplayerAppState Multiplayer}
  * information.
  */

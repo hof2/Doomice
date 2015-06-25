@@ -4,6 +4,8 @@ import com.jme3.terrain.geomipmap.TerrainQuad;
 import io.github.hof2.states.SchoolAppState;
 
 /**
+ * @author Matthias Hofreiter
+ * @since May 13, 2015
  * Defines all {@link Materials} for {@link SimpleMaterials}.
  */
 public enum Materials {

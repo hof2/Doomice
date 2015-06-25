@@ -11,6 +11,8 @@ import java.net.Socket;
 import java.net.SocketException;
 
 /**
+ * @author Christoph Minixhofer
+ * @since May 22, 2015
  * Handles a single connection (session) to a {@link Client}.
  */
 public class SessionThread extends Thread {

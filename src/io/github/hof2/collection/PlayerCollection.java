@@ -4,6 +4,8 @@ import io.github.hof2.controls.PlayerControl;
 import java.util.HashMap;
 
 /**
+ * @author Christoph Minixhofer
+ * @since May 22, 2015
  * Contains all other players, and is used in {@link MultiplayerAppState}.
  */
 public class PlayerCollection {

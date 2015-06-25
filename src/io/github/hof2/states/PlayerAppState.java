@@ -26,6 +26,8 @@ import io.github.hof2.enums.Materials;
 import io.github.hof2.states.simple.SimpleAppState;
 
 /**
+ * @author Christoph Minixhofer
+ * @since May 10, 2015
  * Adds a player to the game, which can be either a
  * {@link StudentControl student} or {@link HeadmasterControl headmaster}.
  */

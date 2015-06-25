@@ -4,6 +4,8 @@ import io.github.hof2.client.Client;
 import io.github.hof2.server.Server;
 
 /**
+ * @author Christoph Minixhofer
+ * @since May 22, 2015
  * Used for communication between {@link Server} and {@link Client}.
  */
 public enum Communications {

@@ -24,6 +24,8 @@ import java.net.Socket;
 import java.util.ArrayList;
 
 /**
+ * @author Christoph Minixhofer
+ * @since May 22, 2015
  * Handles multiplayer functinality: Starts a {@link PlayerClient Client} and
  * {@link PlayerServer Server} if there isn't already a
  * {@link PlayerServer Server} running on the localhost.

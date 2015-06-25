@@ -13,6 +13,8 @@ import io.github.hof2.states.simple.SimpleAppState;
 import io.github.hof2.states.simple.SimpleGui;
 
 /**
+ * @author Matthias Hofreiter
+ * @since April 23, 2015
  * Stores common assets and handles the game overall, attaching other
  * {@link SimpleAppState SimpleAppStates} whenever needed.
  */

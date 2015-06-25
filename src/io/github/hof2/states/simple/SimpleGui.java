@@ -5,6 +5,8 @@ import de.lessvoid.nifty.Nifty;
 import java.util.HashMap;
 
 /**
+ * @author Christoph Minixhofer
+ * @since May 20, 2015
  * A collection for storing and retrieving paths to {@link Gui Guis}. This class
  * is only used for {@link Nifty NiftyGui}.
  */

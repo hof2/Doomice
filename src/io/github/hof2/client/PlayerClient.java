@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.net.Socket;
 
 /**
+ * @author Christoph Minixhofer
+ * @since June 15, 2015
  * Implementation of the {@link Client}. Logs {@link Exception Exceptions} to the console.
  */
 public class PlayerClient extends Client {
