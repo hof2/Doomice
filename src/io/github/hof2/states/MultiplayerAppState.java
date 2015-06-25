@@ -166,7 +166,7 @@ public class MultiplayerAppState extends SimpleAppState implements ScreenControl
     @Override
     public void update(float tpf) {
         try {
-            if ((time += tpf) >= 0.25) {
+            if ((time += tpf) >= 0.002) {
                 time = 0;
                 if (playerAppState != null && client != null && !client.isClosed()) {
                     PlayerControl control = playerAppState.getPlayerControl();

@@ -122,8 +122,8 @@ public class PlayerControl extends BetterCharacterControl implements Serializabl
             newWalkDirection.multLocal(0);
         }
 
-        setViewDirection(viewDirection.interpolate(newViewDirection, tpf));
-        setWalkDirection(viewDirection.interpolate(newWalkDirection, tpf));
+        setViewDirection(multiplayer ? newViewDirection : viewDirection.interpolate(newViewDirection, tpf));
+        setWalkDirection(multiplayer ? newWalkDirection : viewDirection.interpolate(newWalkDirection, tpf));
 
         directions.clear();
     }
