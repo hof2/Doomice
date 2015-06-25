@@ -144,7 +144,7 @@ public class MultiplayerAppState extends SimpleAppState implements ScreenControl
      */
     private PlayerControl createPlayer(Player player) {
         PlayerControl control = new PlayerControl(player.getViewDirection(), player.getWalkDirection(), player.getType());
-        playerAppState.addNode(control, false);
+        playerAppState.addNode(control);
         return control;
     }
 
