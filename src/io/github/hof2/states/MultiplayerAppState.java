@@ -36,6 +36,8 @@ public class MultiplayerAppState extends SimpleAppState implements ScreenControl
     private PlayerAppState playerAppState;
     private static final boolean ENABLE_HORDE = false;
     private NiftyJmeDisplay display;
+    private ArrayList<Player> response = new ArrayList<>();
+    private boolean newResponse;
     /**
      * The port used for all communications
      */
@@ -141,9 +143,18 @@ public class MultiplayerAppState extends SimpleAppState implements ScreenControl
      * @return the created {@link PlayerControl}.
      */
     private PlayerControl createPlayer(Player player) {
-        PlayerControl control = new PlayerControl(player.getViewDirection(), player.getType());
+        PlayerControl control = new PlayerControl(player.getViewDirection(), player.getWalkDirection(), player.getType());
         playerAppState.addNode(control);
         return control;
+    }
+
+    /**
+     * Sets the response {@link ArrayList}.
+     *
+     * @param response the {@link ArrayList}
+     */
+    private synchronized void setResponse(ArrayList<Player> response) {
+        this.response = response;
     }
 
     /**
@@ -155,27 +166,41 @@ public class MultiplayerAppState extends SimpleAppState implements ScreenControl
     @Override
     public void update(float tpf) {
         try {
-            if ((time += tpf) >= 0.5) {
+            if ((time += tpf) >= 0.002) {
                 time = 0;
                 if (playerAppState != null && client != null && !client.isClosed()) {
                     PlayerControl control = playerAppState.getPlayerControl();
-                    client.send(new Player(control.getLocation().clone(), control.getType(), control.getViewDirection().clone(), control.getName()));
-                    ArrayList<Player> response = (ArrayList<Player>) client.performRequest(Communications.UPDATE);
-                    for (Player player : response) {
-                        String id = ENABLE_HORDE ? control.getName() : player.getId();
-                        if (!players.containsKey(id)) {
-                            players.put(id, createPlayer(player));
-                        } else if (!players.get(id).isLocal()) {
-                            control = players.get(id);
-                            control.warp(player.getPosition());
-                            control.setViewDirection(player.getViewDirection());
+                    client.send(new Player(control.getLocation().clone(), control.getViewDirection().clone(), control.getWalkDirection().clone(), control.getType(), control.getName()));
+                    new Thread() {
+                        @Override
+                        public void run() {
+                            try {
+                                setResponse((ArrayList<Player>) client.performRequest(Communications.UPDATE));
+                                newResponse = true;
+                            } catch (IOException | ClassNotFoundException | InterruptedException ex) {
+                                System.out.println("Error: " + ex);
+                            }
                         }
+                    }.start();
+                    if (newResponse) {
+                        for (Player player : response) {
+                            String id = ENABLE_HORDE ? control.getName() : player.getId();
+                            if (!players.containsKey(id)) {
+                                players.put(id, createPlayer(player));
+                            } else if (!players.get(id).isLocal()) {
+                                control = players.get(id);
+                                control.warp(player.getPosition());
+                                control.setNextView(player.getViewDirection());
+                                control.setNextWalk(player.getWalkDirection());
+                            }
+                        }
+                        newResponse = false;
                     }
                 } else {
                     playerAppState = stateManager.getState(PlayerAppState.class);
                 }
             }
-        } catch (IOException | ClassNotFoundException | InterruptedException ex) {
+        } catch (IOException ex) {
             System.out.println("Error: " + ex);
         }
     }

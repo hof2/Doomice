@@ -155,14 +155,14 @@ public class PlayerAppState extends SimpleAppState {
         node.setMaterial(SimpleMaterials.getMaterial(Materials.Player));
         node.rotateUpTo(new Vector3f(0, FastMath.PI / 2, 0));
         node.addControl(control);
-        physicsSpace = stateManager.getState(BulletAppState.class).getPhysicsSpace();
-        physicsSpace.addAll(node);
-        physicsSpace.add(control);
         node.setName(control.getName());
         control.setViewDirection(control.getViewDirection());
         node.setLocalTranslation(control.getLocation());
         node.setShadowMode(RenderQueue.ShadowMode.CastAndReceive);
         app.getRootNode().attachChild(node);
+        physicsSpace = stateManager.getState(BulletAppState.class).getPhysicsSpace();
+        physicsSpace.addAll(node);
+        physicsSpace.add(control);
         return node;
     }
 
