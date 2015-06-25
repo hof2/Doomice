@@ -190,8 +190,8 @@ public class MultiplayerAppState extends SimpleAppState implements ScreenControl
                             } else if (!players.get(id).isLocal()) {
                                 control = players.get(id);
                                 control.warp(player.getPosition());
-                                control.setViewDirection(player.getViewDirection());
-                                control.setWalkDirection(player.getWalkDirection());
+                                control.setNextView(player.getViewDirection());
+                                control.setNextWalk(player.getWalkDirection());
                             }
                         }
                         newResponse = false;

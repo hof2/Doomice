@@ -184,4 +184,12 @@ public class PlayerControl extends BetterCharacterControl implements Serializabl
     public void setLocal(boolean local) {
         this.local = local;
     }
+
+    public void setNextView(Vector3f nextView) {
+        this.nextView = nextView;
+    }
+
+    public void setNextWalk(Vector3f nextWalk) {
+        this.nextWalk = nextWalk;
+    }
 }
