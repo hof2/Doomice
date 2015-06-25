@@ -93,7 +93,7 @@ public class PlayerControl extends BetterCharacterControl implements Serializabl
         Vector3f newViewDirection = multiplayer ? nextView : cam.getDirection().setY(0);
         Vector3f newWalkDirection = multiplayer ? nextWalk : newViewDirection.clone();
 
-        if (!directions.isEmpty()) {
+        if (!directions.isEmpty() || multiplayer) {
             Vector3f commonDirection = new Vector3f(0, 0, 0);
             float directionNumber = 0;
             if (directions.containsKey(Mappings.Left)) {
