@@ -23,7 +23,7 @@ public class LightAppState extends SimpleAppState {
     private DirectionalLight directional = new DirectionalLight();
     private Node rootNode;
     private static final int SHADOWMAP_SIZE = 4048;
-    private static final int SHADOWMAP_NUMBER = 4;
+    private static final int SHADOWMAP_NUMBER = 1;
     private FilterPostProcessor fpp;
 
     /**
